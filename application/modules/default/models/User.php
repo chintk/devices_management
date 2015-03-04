@@ -1,8 +1,11 @@
 <?php
-class Model_User extends Zend_Db_Table_Abstract{
-  protected $_name="user";
-  protected $_primary="id";
+class Model_User{
+  protected $db;
+  public function __construct(){
+    $this->db=Zend_Registry::get('db');
+  }
   public function listall(){
-    return $this->fetchall()->toArray();
+    $sql=$this->db->query("select * from user order by id DESC");
+    return $sql->fetchAll();
   }
 }
