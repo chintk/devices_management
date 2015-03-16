@@ -1,14 +1,24 @@
 <?php echo $this->doctype() ?>  
 <html>  
-<head>  
-    <?php echo $this->headTitle() ?>  
-    <?php echo $this->headMeta() ?>       
-    <?php echo $this->headLink() ?>  
-    <?php echo $this->headScript() ?>     
+<head>
+<?php 
+  echo $this->headTitle();
+  echo $this->headLink()->appendStylesheet(APPLICATION_NAME."/public/css/style.css")
+                        ->appendStylesheet(APPLICATION_NAME."/public/css/application.css");
+  echo $this->headScript()->appendFile(APPLICATION_NAME."/public/js/application.js");
+  echo $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=UTF-8'); 
+?>
+<!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+  </script>
+<![endif]-->
 </head>  
 <body> 
-    <?php
+  <?php echo $this->render('header.phtml'); ?>
+  <div class="container">
+    <?php        
         echo $this->layout()->content;
     ?>
+  </div>
 </body> 
 </html>

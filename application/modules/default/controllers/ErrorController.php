@@ -6,6 +6,7 @@ class ErrorController extends Zend_Controller_Action{
         
         if (!$errors || !$errors instanceof ArrayObject) {
             $this->view->message = 'You have reached the error page';
+            echo "You don't have permission to access this action";
             return;
         }
         switch ($errors->type) {
