@@ -1,0 +1,54 @@
+<h1>Disposal's Detail</h1>
+<a href="<?=$this->url(array('controller'=>'disposal','action'=>'createdevice','id'=>$this->id))?>">Add device</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Device sign</th>
+      <th>Device name</th>
+      <th>Production date</th>
+      <th>Increase date</th>
+      <th>Increase cost</th>
+      <th>Disposal cost</th>  
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php $total = 0; ?>
+    <?php foreach($this->data as $item){ ?>
+      <?php $total += $item['cost'] ?>
+      <tr>
+        <th scope="row">
+          <a href="<?=$this->url(array('controller'=>'disposal','action'=>'editdevice','id'=>$item['id']))?>">
+            <?= $this->controller->getDeviceDetail($item['device_id'])['device_no'] ?>
+          </a>
+          </th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'device','action'=>'show','id'=>$this->controller->getDevice($this->controller->getDeviceDetail($item['device_id'])['device_id'])['id']))?>">
+            <?= $this->controller->getDevice($this->controller->getDeviceDetail($item['device_id'])['device_id'])['name'] ?>
+          </a>
+        </td>
+        <td><?= $this->controller->getDeviceDetail($item['device_id'])['production_date'] ?></td>
+        <td><?= $this->controller->getIncrease($this->controller->getDeviceDetail($item['device_id'])['increase_id'])['increase_date'] ?></td>
+        <td><?= $this->controller->getIncreaseCost($item['device_id'])['cost'] ?></td>
+        <td><?= $item['cost'] ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'disposal','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Total:</td>
+      <td><?= $total ?></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'disposal','action'=>'index'), 
+null, true)?>" class="btn btn-primary">Back</a>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

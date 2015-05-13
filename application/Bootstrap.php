@@ -14,7 +14,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
           ->addRole(new Zend_Acl_Role('expert'))
           ->addRole(new Zend_Acl_Role('master'))
           ->addRole(new Zend_Acl_Role('admin'));
-      $acl->allow('admin');
       $acl->addResource(new Zend_Acl_Resource('admin:index'));
       $acl->addResource(new Zend_Acl_Resource('admin:user'));
       $acl->addResource(new Zend_Acl_Resource('admin:building'));
@@ -26,15 +25,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
       $acl->addResource(new Zend_Acl_Resource('admin:factory'));
       $acl->addResource(new Zend_Acl_Resource('admin:provider'));
       $acl->addResource(new Zend_Acl_Resource('admin:type'));
+      $acl->addResource(new Zend_Acl_Resource('admin:status'));
       $acl->addResource(new Zend_Acl_Resource('admin:country'));
+      $acl->addResource(new Zend_Acl_Resource('admin:increase'));
+      $acl->addResource(new Zend_Acl_Resource('admin:disposal'));
+      $acl->addResource(new Zend_Acl_Resource('admin:repair'));
+      $acl->addResource(new Zend_Acl_Resource('admin:reuse'));
+      $acl->addResource(new Zend_Acl_Resource('admin:transfer'));
       $acl->addResource(new Zend_Acl_Resource('default:index'));
-      $acl->addResource(new Zend_Acl_Resource('default:user')); 
-      // $acl->allow('admin','admin:index',null);
-      // $acl->allow('admin','admin:user',null);
-      // $acl->allow('admin','admin:building',null);      
-      // $acl->allow('admin','admin:institute',null);
-      // $acl->allow('admin','admin:room',null);
-      // $acl->allow('admin','admin:type',null);
+      $acl->addResource(new Zend_Acl_Resource('default:user'));
+      $acl->allow('admin');
       $acl->allow(null,'default:index',null);
       $acl->allow(null,'default:user',null);
       Zend_Registry::set('acl', $acl);

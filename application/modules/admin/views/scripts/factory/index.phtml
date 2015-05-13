@@ -1,0 +1,35 @@
+<h1>Manager Factories</h1>
+<a href="<?=$this->url(array('controller'=>'factory','action'=>'new'))?>">Create factory</a> 
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Country</th>
+      <th>Phone</th>
+      <th>Founded</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'factory','action'=>'edit','id'=>$item['id']))?>">
+            <?= $item['name'] ?>
+          </a>
+        </td>
+        <td><?= $this->controller->getCountry($item['country_id'])['name'] ?></td>
+        <td><?= $item['phone'] ?></td>
+        <td><?= $item['founded'] ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'factory','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

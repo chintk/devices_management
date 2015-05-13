@@ -1,0 +1,47 @@
+<h1>Distribution's Detail</h1>
+<a href="<?=$this->url(array('controller'=>'transfer','action'=>'createdevice','id'=>$this->id))?>">Add device</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>STT</th>
+      <th>Device name</th>
+      <th>Device sign</th>
+      <th>Country</th>
+      <th>Production date</th>
+      <th>Use date</th>
+      <th>Cost</th>
+      <th>Install fee</th>
+      <th>Transport fee</th>
+      <th>Total</th>  
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $key=>$item){ ?>
+      <tr>        
+        <td><?= $key+1 ?></td>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'device','action'=>'show','id'=>$this->controller->getDevice($this->controller->getDeviceDetail($item['device_id'])['device_id'])['id']))?>">
+            <?= $this->controller->getDevice($this->controller->getDeviceDetail($item['device_id'])['device_id'])['name'] ?>
+          </a>
+        </td>
+        <td><?= $this->controller->getDeviceDetail($item['device_id'])['device_no'] ?></td>
+        <td><?= $this->controller->getCountry($item['device_id'])['name'] ?></td>
+        <td><?= $this->controller->getDeviceDetail($item['device_id'])['production_date'] ?></td>
+        <td><?= $this->controller->getDeviceDetail($item['device_id'])['use_date'] ?></td>
+        <td><?= $this->controller->getIncreaseCost($item['device_id'])['cost'] ?></td>
+        <td><?= $this->controller->getIncreaseCost($item['device_id'])['install_fee']/$this->controller->getIncreaseCost($item['device_id'])['quantity'] ?></td>
+        <td><?= $this->controller->getIncreaseCost($item['device_id'])['transport_fee']/$this->controller->getIncreaseCost($item['device_id'])['quantity'] ?></td>
+        <td><?= $this->controller->getIncreaseCost($item['device_id'])['cost']+($this->controller->getIncreaseCost($item['device_id'])['install_fee']+$this->controller->getIncreaseCost($item['device_id'])['transport_fee'])/$this->controller->getIncreaseCost($item['device_id'])['quantity'] ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'transfer','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>    
+  </tbody>
+</table>
+<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'transfer','action'=>'index'), 
+null, true)?>" class="btn btn-primary">Back</a>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

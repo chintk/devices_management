@@ -1,0 +1,35 @@
+<h1>Manager Users</h1>
+<a href="<?=$this->url(array('controller'=>'user','action'=>'new'))?>">Create user</a> 
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Level</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'user','action'=>'edit','id'=>$item['id']))?>">
+            <?= $item['email'] ?>
+          </a>
+        </td>
+        <td><?= $item['name'] ?></td>
+        <td><?= $item['phone'] ?></td>
+        <td><?= $item['level'] ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'user','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

@@ -1,0 +1,37 @@
+<h1>Manager Institutes</h1>
+<a href="<?=$this->url(array('controller'=>'institute','action'=>'new'))?>">Create institute</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Sign</th>
+      <th>Name</th>
+      <th>Departments</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'institute','action'=>'edit','id'=>$item['id']))?>">
+            <?= $item['sign'] ?>
+          </a>
+        </td>
+        <td><?= $item['name'] ?></td>
+        <?php $departments = $this->controller->getDepartments($item['id']); ?>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'institute','action'=>'departments','id'=>$item['id']))?>"><?= count($departments); ?></a></td>
+        <td><?= $item['description'] ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'institute','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

@@ -1,0 +1,62 @@
+<h1>Repair's Detail</h1>
+<a href="<?=$this->url(array('controller'=>'repair','action'=>'createdevice','id'=>$this->id))?>">Add device</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>STT</th>
+      <th>Device sign</th>
+      <th>Device name</th>
+      <th>Production date</th>
+      <th>Increase date</th>
+      <th>Increase cost</th>
+      <th>Repair cost</th> 
+      <th>Reuse date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php $total = 0; ?>
+    <?php foreach($this->data as $key=>$item){ ?>
+      <?php $total += $item['repair_cost'] ?>
+      <tr>
+        <td><?= $key+1 ?></td>
+        <td><?= $this->controller->getDeviceDetail($item['device_id'])['device_no'] ?></td>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'device','action'=>'show','id'=>$this->controller->getDevice($this->controller->getDeviceDetail($item['device_id'])['device_id'])['id']))?>">
+            <?= $this->controller->getDevice($this->controller->getDeviceDetail($item['device_id'])['device_id'])['name'] ?>
+          </a>
+        </td>
+        <td><?= $this->controller->getDeviceDetail($item['device_id'])['production_date'] ?></td>
+        <td><?= $this->controller->getIncrease($this->controller->getDeviceDetail($item['device_id'])['increase_id'])['increase_date'] ?></td>
+        <td><?= $this->controller->getIncreaseCost($item['device_id'])['cost'] ?></td>
+        <td><?= $item['repair_cost'] ?></td>
+        <td><?= $item['reuse_date'] ?></td>
+        <td>
+          <?php if($item['reuse_date']==null){ ?>
+          <a href="<?=$this->url(array('controller'=>'repair','action'=>'reuse','id'=>$item['id']))?>">Reuse</a>
+          <?php } else echo("Reused"); ?>
+        </td>
+        <td><a href="<?=$this->url(array('controller'=>'repair','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Total:</td>
+      <td><?= $total ?></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'repair','action'=>'index'), 
+null, true)?>" class="btn btn-primary">Back</a>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

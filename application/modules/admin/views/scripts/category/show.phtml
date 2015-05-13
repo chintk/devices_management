@@ -1,0 +1,11 @@
+<h1>Category's infomation</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <dt><label>Name:</label></dt>
+    <?= $this->category['name'] ?>
+    <dt><label>Type:</label></dt>
+    <?= $this->controller->getType($this->category['type_id'])['name'] ?>
+    <dt><label>Description:</label></dt>
+    <?= $this->category['description'] ?>
+  </div>
+</div>

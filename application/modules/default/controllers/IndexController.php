@@ -10,15 +10,22 @@ class IndexController extends Zend_Controller_Action{
   }
 
   public function indexAction(){
+    $auth = Zend_Auth::getInstance();
+    if($auth->hasIdentity()){
+      if($auth->getIdentity()->level == 1)
+        $this->_redirect('/admin');
+      else
+        $this->view->user = $auth->getIdentity();
+    }
   }
 
   public function loginAction(){
     $auth = Zend_Auth::getInstance();
     if($auth->hasIdentity()){
-      if($getInfo->level == 1)
-        $this->_redirect('/admin/index/index');
+      if($auth->getIdentity()->level == 1)
+        $this->_redirect('/admin');
       else
-        $this->_redirect('user/show');
+        $this->_redirect('/');
     }else{
       $this->view->headTitle(" | Login");
       $formLogin = new Form_Login();
@@ -42,9 +49,9 @@ class IndexController extends Zend_Controller_Action{
             $getInfo = $authAdapter->getResultRowObject();
             $auth->getStorage()->write($getInfo);
             if($getInfo->level == 1)
-              $this->_redirect('/admin/index/index');
+              $this->_redirect('/admin');
             else
-              $this->_redirect('user/show');
+              $this->_redirect('/');
           }else{
             $this->_redirect('/index/login');   
           }

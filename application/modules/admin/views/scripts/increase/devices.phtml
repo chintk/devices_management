@@ -1,0 +1,60 @@
+<h1>Increase's Detail</h1>
+<a href="<?=$this->url(array('controller'=>'increase','action'=>'createdevice','id'=>$this->id))?>">Add device</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Device</th>
+      <th>Production date</th>
+      <th>Quantity</th>
+      <th>Cost</th>
+      <th>Guarantee</th>
+      <th>Install fee</th>
+      <th>Transport fee</th>
+      <th>Expenses</th>     
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php $total = 0; ?>
+    <?php foreach($this->data as $item){ ?>
+      <?php $expenses = $item['cost'] * $item['quantity'] + $item['install_fee'] + $item['transport_fee'] ?>
+      <?php $total += $expenses ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'increase','action'=>'editdevice','id'=>$item['id']))?>">
+            <?= $this->controller->getDevice($item['device_id'])['name'] ?>
+          </a>
+        </td>
+        <td><?= $item['production_date'] ?></td>
+        <td><?= $item['quantity'] ?></td>
+        <td><?= $item['cost'] ?></td>
+        <td><?= $item['guarantee'] ?></td>
+        <td><?= $item['install_fee'] ?></td>
+        <td><?= $item['transport_fee'] ?></td>
+        <td><?= $expenses ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'increase','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Total:</td>
+      <td><?= $total ?></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'increase','action'=>'index'), 
+null, true)?>" class="btn btn-primary">Back</a>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

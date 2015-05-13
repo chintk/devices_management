@@ -1,0 +1,29 @@
+<h1>Manager Status</h1>
+<a href="<?=$this->url(array('controller'=>'status','action'=>'new'))?>">Create status</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'status','action'=>'edit','id'=>$item['id']))?>">
+            <?= $item['name'] ?>
+          </a>
+        </td>
+        <td><a href="<?=$this->url(array('controller'=>'status','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

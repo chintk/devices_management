@@ -1,0 +1,13 @@
+<h1>Factory's infomation</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <dt><label>Name:</label></dt>
+    <?= $this->factory['name'] ?>
+    <dt><label>Country:</label></dt>
+    <?= $this->controller->getCountry($this->factory['country_id'])['name'] ?>
+    <dt><label>Phone:</label></dt>
+    <?= $this->factory['phone'] ?>
+    <dt><label>Founded:</label></dt>
+    <?= $this->factory['founded'] ?>
+  </div>
+</div>

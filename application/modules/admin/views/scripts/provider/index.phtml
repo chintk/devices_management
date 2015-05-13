@@ -1,0 +1,37 @@
+<h1>Manager Providers</h1>
+<a href="<?=$this->url(array('controller'=>'provider','action'=>'new'))?>">Create provider</a> 
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'provider','action'=>'edit','id'=>$item['id']))?>">
+            <?= $item['name'] ?>
+          </a>
+        </td>
+        <td><?= $item['description'] ?></td>
+        <td><?= $item['email'] ?></td>
+        <td><?= $item['phone'] ?></td>
+        <td><?= $item['address'] ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'provider','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

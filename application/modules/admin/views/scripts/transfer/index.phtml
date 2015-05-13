@@ -1,0 +1,82 @@
+<h1>Manager transfers</h1>
+<a href="<?=$this->url(array('controller'=>'transfer','action'=>'newtransfer','kind'=>'department'))?>">Create transfer department</a> |
+<a href="<?=$this->url(array('controller'=>'transfer','action'=>'newtransfer','kind'=>'institute'))?>">Create transfer institute</a> |
+<a href="<?=$this->url(array('controller'=>'transfer','action'=>'newtransfer','kind'=>'room'))?>">Create transfer room</a> |
+<a href="<?=$this->url(array('controller'=>'transfer','action'=>'newdistribution','kind'=>'department'))?>">Create distribution department</a> |
+<a href="<?=$this->url(array('controller'=>'transfer','action'=>'newdistribution','kind'=>'institute'))?>">Create distribution institute</a> |
+<a href="<?=$this->url(array('controller'=>'transfer','action'=>'newdistribution','kind'=>'room'))?>">Create distribution room</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date</th>
+      <th>Decision</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Details</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <?= $item['transfer_date'] ?>
+        </td>
+        <td><?= $item['decision'] ?></td>
+        <td>
+          <?php if($item['department_from'] != null){ ?>
+            <a href="<?=$this->url(array('controller'=>'department','action'=>'show','id'=>$item['department_from']))?>" target='_blank'>
+              <?= $this->controller->getDepartment($item['department_from'])['name'] ?>
+            </a>
+          <?php }elseif($item['institute_from'] != null) { ?>
+            <a href="<?=$this->url(array('controller'=>'institute','action'=>'show','id'=>$item['institute_from']))?>" target='_blank'>
+              <?= $this->controller->getInstitute($item['institute_from'])['name'] ?>
+            </a>
+          <?php }elseif($item['room_from'] != null) { ?>
+            <a href="<?=$this->url(array('controller'=>'room','action'=>'show','id'=>$item['room_from']))?>" target='_blank'>
+              <?= $this->controller->getRoom($item['room_from'])['name'] ?>
+            </a>
+          <?php }else{echo('Distribution');} ?>
+        </td>
+        <td>
+          <?php if($item['department_to'] != null){ ?>
+            <a href="<?=$this->url(array('controller'=>'department','action'=>'show','id'=>$item['department_to']))?>" target='_blank'>
+              <?= $this->controller->getDepartment($item['department_to'])['name'] ?>
+            </a>
+          <?php }elseif($item['institute_to'] != null) { ?>
+            <a href="<?=$this->url(array('controller'=>'institute','action'=>'show','id'=>$item['institute_to']))?>" target='_blank'>
+              <?= $this->controller->getInstitute($item['institute_to'])['name'] ?>
+            </a>
+          <?php }elseif($item['room_to'] != null) { ?>
+            <a href="<?=$this->url(array('controller'=>'room','action'=>'show','id'=>$item['room_to']))?>" target='_blank'>
+              <?= $this->controller->getRoom($item['room_to'])['name'] ?>
+            </a>
+          <?php } ?>
+        </td>
+        <td>
+          <?php if($item['department_from']!=null || $item['institute_from']!=null || $item['room_from'] != null){ ?>
+            <a href="<?=$this->url(array('controller'=>'transfer','action'=>'devicestransfer','id'=>$item['id']))?>">Detail</a>
+          <?php }else{ ?>
+            <a href="<?=$this->url(array('controller'=>'transfer','action'=>'devicesdistribution','id'=>$item['id']))?>">Detail</a>
+          <?php } ?>
+        </td>
+        <td>
+          <?php if($item['department_from']!=null || $item['institute_from']!=null || $item['room_from'] != null){ ?>
+            <a href="<?=$this->url(array('controller'=>'transfer','action'=>'edittransfer','id'=>$item['id']))?>">Edit</a>
+          <?php }else{ ?>
+            <a href="<?=$this->url(array('controller'=>'transfer','action'=>'editdistribution','id'=>$item['id']))?>">Edit</a>
+          <?php } ?>
+        </td>
+        <td><a href="<?=$this->url(array('controller'=>'transfer','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

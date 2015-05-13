@@ -1,0 +1,37 @@
+<h1>Device's Attributes</h1>
+<a href="<?=$this->url(array('controller'=>'device','action'=>'createattribute','id'=>$this->id))?>">Add attribute</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Attribute</th>
+      <th>Value</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'device','action'=>'editattribute','did'=>$item['id']))?>">
+            <?= $this->controller->getAttribute($item['attribute_id'])['name'] ?>
+          </a>
+        </td>
+        <td>
+          <?php if($item['value'] != null): ?>
+            <?= $item['value'] ?>
+          <?php else: ?>
+            <?= $this->controller->getValue($item['value_id'])['name'] ?>
+          <?php endif; ?>
+        </td>
+        <td><a href="<?=$this->url(array('controller'=>'device','action'=>'deleteattribute','did'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

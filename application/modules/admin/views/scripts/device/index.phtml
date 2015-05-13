@@ -1,0 +1,46 @@
+<h1>Manager Devices</h1>
+<a href="<?=$this->url(array('controller'=>'device','action'=>'new'))?>">Create device</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Sign</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Factory</th>     
+      <th>Attributes</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'device','action'=>'edit','id'=>$item['id']))?>">
+            <?= $item['sign'] ?>
+          </a>
+        </td>
+        <td><?= $item['name'] ?></td>
+        <td><?= $item['description'] ?></td>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'category','action'=>'show','id'=>$item['category_id']))?>"><?= $this->controller->getCategory($item['category_id'])['name'] ?></a>
+        </td>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'factory','action'=>'show','id'=>$item['factory_id']))?>"><?= $this->controller->getFactory($item['factory_id'])['name'] ?></a>
+        </td>
+        <?php $attributes = $this->controller->getAttributes($item['id']); ?>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'device','action'=>'attributes','id'=>$item['id']))?>"><?= count($attributes); ?></a>
+        </td>
+        <td><a href="<?=$this->url(array('controller'=>'device','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>

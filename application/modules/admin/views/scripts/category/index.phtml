@@ -1,0 +1,33 @@
+<h1>Manager Categories</h1>
+<a href="<?=$this->url(array('controller'=>'category','action'=>'new'))?>">Create category</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data as $item){ ?>
+      <tr>
+        <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <a href="<?=$this->url(array('controller'=>'category','action'=>'edit','id'=>$item['id']))?>">
+            <?= $item['name'] ?>
+          </a>
+        </td>
+        <td><?= $item['description'] ?></td>
+        <td><?= $this->controller->getType($item['type_id'])['name'] ?></td>
+        <td><a href="<?=$this->url(array('controller'=>'category','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php
+if($this->data->count() > 1){
+  echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
+}
+?>
