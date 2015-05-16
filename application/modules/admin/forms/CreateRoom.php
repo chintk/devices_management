@@ -9,7 +9,7 @@ class Admin_Form_CreateRoom extends Zend_Form{
     $this->addElement('textarea','description',array('label'=>'Description', 'rows'=>'4', 'class'=>'form-control'));
 
     $this->addElement('select','building_id',array('label'=>'Building', 'class'=>'form-control'));
-    
+
     $this->addElement('select','institute_id',array('label'=>'Institute', 'class'=>'form-control'));
 
     $this->addElement('select','department_id',array('label'=>'Department', 'class'=>'form-control'));

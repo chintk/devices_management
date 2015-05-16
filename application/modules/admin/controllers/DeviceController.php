@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_DeviceController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Devices");        
+    $this->view->headTitle(" | Devices");
     $mdevice=new Admin_Model_Device;
     $paginator = Zend_Paginator::factory($mdevice->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -20,11 +20,11 @@ class Admin_DeviceController extends Admin_AuthController{
     $this->setSeclect($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
-        $request = $this->getRequest();        
+      if($form->isValid($this->_request->getPost())){
+        $request = $this->getRequest();
         $sign = $request->getParam('sign');
         $name = $request->getParam('name');
-        $description = $request->getParam('description'); 
+        $description = $request->getParam('description');
         $category_id = $request->getParam('category_id');
         $factory_id = $request->getParam('factory_id');
         $data = array ('sign' => $sign, 'name' => $name, 'description' => $description,
@@ -43,7 +43,7 @@ class Admin_DeviceController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit device");
     $form = new Admin_Form_CreateDevice();
-    $mdevice = new Admin_Model_Device;    
+    $mdevice = new Admin_Model_Device;
     $device = $mdevice->show($this->_request->getParam('id'));
     $form->sign->setValue($device['sign']);
     $form->name->setValue($device['name']);
@@ -54,7 +54,7 @@ class Admin_DeviceController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $sign = $request->getParam('sign');
         $name = $request->getParam('name');
@@ -82,17 +82,17 @@ class Admin_DeviceController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/device/index');
   }
 
   public function attributesAction(){
-    $this->view->headTitle(" | Device's Attributes");        
+    $this->view->headTitle(" | Device's Attributes");
     $mattribute=new Admin_Model_DeviceAttribute;
     $this->view->id = $this->_request->getParam('id');
     $paginator = Zend_Paginator::factory($mattribute->index($this->_request->getParam('id')));
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -102,14 +102,14 @@ class Admin_DeviceController extends Admin_AuthController{
 
   public function createattributeAction(){
     $this->view->headTitle(" | Add attribute");
-    $form = new Admin_Form_AddAttribute();    
+    $form = new Admin_Form_AddAttribute();
     $id = $this->_request->getParam('id');
     $form->device_id->setValue($id);
     $this->setSeclectValue($form);
     $mattribute = new Admin_Model_DeviceAttribute;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $attribute_id = $request->getParam('attribute_id');
         $value_id = $request->getParam('value_id');
@@ -137,7 +137,7 @@ class Admin_DeviceController extends Admin_AuthController{
     $this->setSeclectValue($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $attribute_id = $request->getParam('attribute_id');
         $id = $attribute['device_id'];
@@ -154,7 +154,7 @@ class Admin_DeviceController extends Admin_AuthController{
     }
   }
 
-  public function deleteattributeAction(){    
+  public function deleteattributeAction(){
     $did=$this->_request->getParam('did');
     $mattribute=new Admin_Model_DeviceAttribute;
     $id=$mattribute->show($did)['device_id'];

@@ -21,7 +21,7 @@
         <?php $values = $this->controller->getValues($item['id']); ?>
         <td>
           <a href="<?=$this->url(array('controller'=>'attribute','action'=>'values','id'=>$item['id']))?>"><?= count($values); ?></a></td>
-        <td><a href="<?=$this->url(array('controller'=>'attribute','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'attribute','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

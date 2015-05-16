@@ -1,8 +1,8 @@
 <?php
 class IndexController extends Zend_Controller_Action{
-  public function init(){    
+  public function init(){
     $this->view->headTitle("BKDMS");
-  } 
+  }
 
   public function errorAction(){
     echo "You don't have permission to access this action";
@@ -53,7 +53,7 @@ class IndexController extends Zend_Controller_Action{
             else
               $this->_redirect('/');
           }else{
-            $this->_redirect('/index/login');   
+            $this->_redirect('/index/login');
           }
         }
       }
@@ -63,6 +63,6 @@ class IndexController extends Zend_Controller_Action{
   public function logoutAction(){
     $storage = new Zend_Auth_Storage_Session();
     $storage->clear();
-    $this->_redirect('/'); 
+    $this->_redirect('/');
   }
 }

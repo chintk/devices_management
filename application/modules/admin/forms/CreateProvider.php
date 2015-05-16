@@ -1,6 +1,6 @@
 <?php
 class Admin_Form_CreateProvider extends Zend_Form{
-  public function init(){   
+  public function init(){
     $this->addElement('text','name',array('label'=>'Name', 'class'=>'form-control'));
     $name = $this->getElement('name');
     $name->setRequired(true)->addValidator('NotEmpty',true)

@@ -1,5 +1,5 @@
 <h1>Manager Providers</h1>
-<a href="<?=$this->url(array('controller'=>'provider','action'=>'new'))?>">Create provider</a> 
+<a href="<?=$this->url(array('controller'=>'provider','action'=>'new'))?>">Create provider</a>
 <table class="table">
   <thead>
     <tr>
@@ -25,7 +25,7 @@
         <td><?= $item['email'] ?></td>
         <td><?= $item['phone'] ?></td>
         <td><?= $item['address'] ?></td>
-        <td><a href="<?=$this->url(array('controller'=>'provider','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'provider','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

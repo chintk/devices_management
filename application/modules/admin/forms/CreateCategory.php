@@ -9,7 +9,7 @@ class Admin_Form_CreateCategory extends Zend_Form{
     $this->addElement('textarea','description',array('label'=>'Description', 'rows'=>'4', 'class'=>'form-control'));
 
     $this->addElement('select','type_id',array('label'=>'Type', 'class'=>'form-control'));
-    
+
     $this->addElement('submit','create',array('label'=>'Create', 'class'=>'btn btn-primary'));
   }
 }

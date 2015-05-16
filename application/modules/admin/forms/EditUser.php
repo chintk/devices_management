@@ -18,7 +18,7 @@ class Admin_Form_EditUser extends Zend_Form{
     $password=$this->getElement('password');
     $password->setRequired(true)->addValidator('NotEmpty')
       ->getValidator('NotEmpty')->setMessage('Password to confirm');
-    
+
     $this->addElement('submit','update',array('label'=>'Update', 'class'=>'btn btn-primary'));
   }
 }

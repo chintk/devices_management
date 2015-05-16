@@ -8,7 +8,7 @@
       <th>Production date</th>
       <th>Increase date</th>
       <th>Increase cost</th>
-      <th>Disposal cost</th>  
+      <th>Disposal cost</th>
       <th></th>
     </tr>
   </thead>
@@ -31,7 +31,7 @@
         <td><?= $this->controller->getIncrease($this->controller->getDeviceDetail($item['device_id'])['increase_id'])['increase_date'] ?></td>
         <td><?= $this->controller->getIncreaseCost($item['device_id'])['cost'] ?></td>
         <td><?= $item['cost'] ?></td>
-        <td><a href="<?=$this->url(array('controller'=>'disposal','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'disposal','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
     <tr>
@@ -45,7 +45,7 @@
     </tr>
   </tbody>
 </table>
-<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'disposal','action'=>'index'), 
+<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'disposal','action'=>'index'),
 null, true)?>" class="btn btn-primary">Back</a>
 <?php
 if($this->data->count() > 1){

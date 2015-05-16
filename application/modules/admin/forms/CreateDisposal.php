@@ -1,7 +1,7 @@
 <?php
 class Admin_Form_CreateDisposal extends Zend_Form{
   public function init(){
-    $this->addElement('select','disposal_date_day',array('label'=>'Disposal date', 
+    $this->addElement('select','disposal_date_day',array('label'=>'Disposal date',
         'class'=>'form-control'));
 
     $this->addElement('select','disposal_date_month',array('class'=>'form-control'));

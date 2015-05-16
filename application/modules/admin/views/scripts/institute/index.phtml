@@ -25,7 +25,7 @@
         <td>
           <a href="<?=$this->url(array('controller'=>'institute','action'=>'departments','id'=>$item['id']))?>"><?= count($departments); ?></a></td>
         <td><?= $item['description'] ?></td>
-        <td><a href="<?=$this->url(array('controller'=>'institute','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'institute','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

@@ -1,6 +1,6 @@
 <?php
 class Form_Login extends Zend_Form{
-  public function init(){   
+  public function init(){
     $this->addElement('text','email',array('label'=>'Email', 'class'=>'form-control'));
     $username = $this->getElement('email');
     $username->setRequired(true)->addValidator('NotEmpty',true)

@@ -6,7 +6,7 @@ class Admin_Form_CreateIncrease extends Zend_Form{
     $invoice->setRequired(true)->addValidator('NotEmpty',true)
       ->getValidator('NotEmpty')->setMessage('Ma hoa don không được bỏ trống.');
 
-    $this->addElement('select','increase_date_day',array('label'=>'Increase date', 
+    $this->addElement('select','increase_date_day',array('label'=>'Increase date',
         'class'=>'form-control'));
 
     $this->addElement('select','increase_date_month',array('class'=>'form-control'));

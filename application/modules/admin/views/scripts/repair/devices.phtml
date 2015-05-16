@@ -9,7 +9,7 @@
       <th>Production date</th>
       <th>Increase date</th>
       <th>Increase cost</th>
-      <th>Repair cost</th> 
+      <th>Repair cost</th>
       <th>Reuse date</th>
       <th></th>
       <th></th>
@@ -37,7 +37,7 @@
           <a href="<?=$this->url(array('controller'=>'repair','action'=>'reuse','id'=>$item['id']))?>">Reuse</a>
           <?php } else echo("Reused"); ?>
         </td>
-        <td><a href="<?=$this->url(array('controller'=>'repair','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'repair','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
     <tr>
@@ -53,7 +53,7 @@
     </tr>
   </tbody>
 </table>
-<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'repair','action'=>'index'), 
+<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'repair','action'=>'index'),
 null, true)?>" class="btn btn-primary">Back</a>
 <?php
 if($this->data->count() > 1){

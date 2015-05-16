@@ -8,7 +8,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Category</th>
-      <th>Factory</th>     
+      <th>Factory</th>
       <th>Attributes</th>
       <th></th>
     </tr>
@@ -34,7 +34,7 @@
         <td>
           <a href="<?=$this->url(array('controller'=>'device','action'=>'attributes','id'=>$item['id']))?>"><?= count($attributes); ?></a>
         </td>
-        <td><a href="<?=$this->url(array('controller'=>'device','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'device','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

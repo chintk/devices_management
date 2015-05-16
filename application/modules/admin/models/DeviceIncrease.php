@@ -22,7 +22,7 @@ class Admin_Model_DeviceIncrease{
   }
 
   public function delete($id){
-    
+
     $sql = $this->db->delete('device_increase', 'id='.$id);
     return $sql;
   }

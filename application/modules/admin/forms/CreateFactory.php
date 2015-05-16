@@ -10,8 +10,8 @@ class Admin_Form_CreateFactory extends Zend_Form{
 
     $this->addElement('text','phone',array('label'=>'Phone', 'class'=>'form-control'));
 
-    $this->addElement('text','founded',array('label'=>'Founded', 'class'=>'form-control'));    
-    
+    $this->addElement('text','founded',array('label'=>'Founded', 'class'=>'form-control'));
+
     $this->addElement('submit','create',array('label'=>'Create', 'class'=>'btn btn-primary'));
   }
 }

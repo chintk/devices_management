@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_CategoryController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Categories");        
+    $this->view->headTitle(" | Categories");
     $mcategory=new Admin_Model_Category;
     $paginator = Zend_Paginator::factory($mcategory->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -20,7 +20,7 @@ class Admin_CategoryController extends Admin_AuthController{
     $this->setSeclect($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $description = $request->getParam('description');
@@ -39,7 +39,7 @@ class Admin_CategoryController extends Admin_AuthController{
 
   public function showAction(){
     $this->view->headTitle(" | Show category");
-    $mcategory = new Admin_Model_Category;    
+    $mcategory = new Admin_Model_Category;
     $category = $mcategory->show($this->_request->getParam('id'));
     $this->view->category = $category;
     $this->view->controller = $this;
@@ -48,7 +48,7 @@ class Admin_CategoryController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit category");
     $form = new Admin_Form_CreateCategory();
-    $mcategory = new Admin_Model_Category;    
+    $mcategory = new Admin_Model_Category;
     $category = $mcategory->show($this->_request->getParam('id'));
     $form->name->setValue($category['name']);
     $form->description->setValue($category['description']);
@@ -57,7 +57,7 @@ class Admin_CategoryController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $description = $request->getParam('description');
@@ -82,7 +82,7 @@ class Admin_CategoryController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/category/index');
   }

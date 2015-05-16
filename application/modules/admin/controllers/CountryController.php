@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_CountryController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Countries");        
+    $this->view->headTitle(" | Countries");
     $mcountry=new Admin_Model_Country;
     $paginator = Zend_Paginator::factory($mcountry->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -18,10 +18,10 @@ class Admin_CountryController extends Admin_AuthController{
     $mcountry = new Admin_Model_Country;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
-        $code = $request->getParam('code'); 
+        $code = $request->getParam('code');
         $data = array ('name' => $name, 'code' => $code);
         if($mcountry->create($data)){
           $this->_redirect('/admin/country/index');
@@ -37,14 +37,14 @@ class Admin_CountryController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit country");
     $form = new Admin_Form_CreateCountry();
-    $mcountry = new Admin_Model_Country;    
+    $mcountry = new Admin_Model_Country;
     $country = $mcountry->show($this->_request->getParam('id'));
     $form->name->setValue($country['name']);
     $form->code->setValue($country['code']);
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $code = $request->getParam('code');
@@ -68,7 +68,7 @@ class Admin_CountryController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/country/index');
   }

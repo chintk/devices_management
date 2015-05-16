@@ -25,7 +25,7 @@
             <?= $this->controller->getValue($item['value_id'])['name'] ?>
           <?php endif; ?>
         </td>
-        <td><a href="<?=$this->url(array('controller'=>'device','action'=>'deleteattribute','did'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'device','action'=>'deleteattribute','did'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

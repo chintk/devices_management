@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_AttributeController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Attributes");        
+    $this->view->headTitle(" | Attributes");
     $mattribute=new Admin_Model_Attribute;
     $paginator = Zend_Paginator::factory($mattribute->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -19,7 +19,7 @@ class Admin_AttributeController extends Admin_AuthController{
     $mattribute = new Admin_Model_Attribute;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $data = array ('name' => $name);
@@ -37,13 +37,13 @@ class Admin_AttributeController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit attribute");
     $form = new Admin_Form_CreateAttribute();
-    $mattribute = new Admin_Model_Attribute;    
+    $mattribute = new Admin_Model_Attribute;
     $attribute = $mattribute->show($this->_request->getParam('id'));
     $form->name->setValue($attribute['name']);
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $data = array ('name' => $name);
@@ -66,18 +66,18 @@ class Admin_AttributeController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/attribute/index');
   }
 
   public function valuesAction(){
-    $this->view->headTitle(" | Attribute's values");        
+    $this->view->headTitle(" | Attribute's values");
     $mvalue=new Admin_Model_AttributeValue;
     $id = $this->_request->getParam('id');
     $this->view->id = $id;
     $paginator = Zend_Paginator::factory($mvalue->listvalue($id));
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -90,7 +90,7 @@ class Admin_AttributeController extends Admin_AuthController{
     $mvalue = new Admin_Model_AttributeValue;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $id = $this->_request->getParam('id');
@@ -116,7 +116,7 @@ class Admin_AttributeController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $id = $value['attribute_id'];
@@ -132,7 +132,7 @@ class Admin_AttributeController extends Admin_AuthController{
     }
   }
 
-  public function deletevalueAction(){    
+  public function deletevalueAction(){
     $did=$this->_request->getParam('id');
     $mvalue=new Admin_Model_AttributeValue;
     $id=$mvalue->show($did)['attribute_id'];

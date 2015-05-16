@@ -197,7 +197,7 @@ p {
   border: 1px solid #bbb;
   width: 100%;
   margin-bottom: 15px;
-  @include box_sizing;  
+  @include box_sizing;
 }
 
 input[type="checkbox"]{

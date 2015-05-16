@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_TransferController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Transfers");        
+    $this->view->headTitle(" | Transfers");
     $mtransfer=new Admin_Model_Transfer;
     $paginator = Zend_Paginator::factory($mtransfer->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -25,7 +25,7 @@ class Admin_TransferController extends Admin_AuthController{
     $this->setDate($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $transfer_date = $request->getParam('transfer_date_year').'-'.$request
         ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
@@ -69,11 +69,11 @@ class Admin_TransferController extends Admin_AuthController{
     $this->setDate($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $transfer_date = $request->getParam('transfer_date_year').'-'.$request
         ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
-        $decision = $request->getParam('decision'); 
+        $decision = $request->getParam('decision');
         if($kind=="department"){
           $department_to = $request->getParam('department_to');
           $data = array ('transfer_date' => $transfer_date, 'decision' => $decision,
@@ -101,18 +101,18 @@ class Admin_TransferController extends Admin_AuthController{
   public function edittransferAction(){
     $this->view->headTitle(" | Edit transfer");
     $form = new Admin_Form_CreateTransfer();
-    $mtransfer = new Admin_Model_Transfer;    
+    $mtransfer = new Admin_Model_Transfer;
     $transfer = $mtransfer->show($this->_request->getParam('id'));
     if($transfer['department_from']!=null){
-      $kind="department";      
+      $kind="department";
       $form->department_to->setValue($transfer['department_to']);
       $form->department_from->setValue($transfer['department_from']);
     }elseif ($transfer['institute_from']!=null) {
-      $kind="institute";      
+      $kind="institute";
       $form->department_to->setValue($transfer['institute_to']);
       $form->department_from->setValue($transfer['institute_from']);
     }elseif ($transfer['room_from']!=null) {
-      $kind="room";      
+      $kind="room";
       $form->department_to->setValue($transfer['room_to']);
       $form->department_from->setValue($transfer['room_from']);
     }
@@ -126,11 +126,11 @@ class Admin_TransferController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $transfer_date = $request->getParam('transfer_date_year').'-'.$request
         ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
-        $decision = $request->getParam('decision'); 
+        $decision = $request->getParam('decision');
         if($kind=="department"){
           $department_from = $request->getParam('department_from');
           $department_to = $request->getParam('department_to');
@@ -161,16 +161,16 @@ class Admin_TransferController extends Admin_AuthController{
   public function editdistributionAction(){
     $this->view->headTitle(" | Edit distribution");
     $form = new Admin_Form_CreateDistribution();
-    $mtransfer = new Admin_Model_Transfer;    
-    $transfer = $mtransfer->show($this->_request->getParam('id'));    
+    $mtransfer = new Admin_Model_Transfer;
+    $transfer = $mtransfer->show($this->_request->getParam('id'));
     if($transfer['department_to']!=null){
-      $kind="department";      
+      $kind="department";
       $form->department_to->setValue($transfer['department_to']);
     }elseif ($transfer['institute_to']!=null) {
-      $kind="institute";      
+      $kind="institute";
       $form->department_to->setValue($transfer['institute_to']);
     }elseif ($transfer['room_to']!=null) {
-      $kind="room";      
+      $kind="room";
       $form->department_to->setValue($transfer['room_to']);
     }
     $form->decision->setValue($transfer['decision']);
@@ -183,11 +183,11 @@ class Admin_TransferController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $transfer_date = $request->getParam('transfer_date_year').'-'.$request
         ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
-        $decision = $request->getParam('decision'); 
+        $decision = $request->getParam('decision');
         if($kind=="department"){
           $department_to = $request->getParam('department_to');
           $data = array ('transfer_date' => $transfer_date, 'decision' => $decision,
@@ -214,15 +214,15 @@ class Admin_TransferController extends Admin_AuthController{
 
   public function deleteAction(){
     $id=$this->_request->getParam('id');
-    $mtransfer=new Admin_Model_Transfer;    
-    $transfer = $mtransfer->show($id);    
-    $devices = $this->getDevices($id);    
+    $mtransfer=new Admin_Model_Transfer;
+    $transfer = $mtransfer->show($id);
+    $devices = $this->getDevices($id);
     $mdetail = new Admin_Model_DeviceDetail;
     $department = $transfer['department_from'];
     $institute = $transfer['institute_from'];
     $room = $transfer['room_from'];
     if($mtransfer->delete($id)){
-      foreach($devices as $device){      
+      foreach($devices as $device){
         $device_detail = $this->getDeviceDetail($device['device_id']);
         $device_no = $device_detail['device_no'];
         $value = explode(".", $device_no);
@@ -241,24 +241,24 @@ class Admin_TransferController extends Admin_AuthController{
         }
         $detail = array('device_no'=>implode('.', $value), 'department_id'=>$department,
           'institute_id'=>$institute, 'room_id'=>$room, 'status_id'=>$status, 'use_date'=>$use_date);
-        $mdetail = new Admin_Model_DeviceDetail;      
-        $mdetail->update($device_detail['id'], $detail);        
+        $mdetail = new Admin_Model_DeviceDetail;
+        $mdetail->update($device_detail['id'], $detail);
       }
       echo "Complete";
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/transfer/index');
   }
 
   public function devicestransferAction(){
-    $this->view->headTitle(" | Transfer's Detail");        
+    $this->view->headTitle(" | Transfer's Detail");
     $mdevice = new Admin_Model_DeviceTransfer;
     $this->view->id = $this->_request->getParam('id');
     $paginator = Zend_Paginator::factory($mdevice->index($this->_request->getParam('id')));
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -267,11 +267,11 @@ class Admin_TransferController extends Admin_AuthController{
   }
 
   public function devicesdistributionAction(){
-    $this->view->headTitle(" | Distribution's Detail");        
+    $this->view->headTitle(" | Distribution's Detail");
     $mdevice = new Admin_Model_DeviceTransfer;
     $this->view->id = $this->_request->getParam('id');
     $paginator = Zend_Paginator::factory($mdevice->index($this->_request->getParam('id')));
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -281,7 +281,7 @@ class Admin_TransferController extends Admin_AuthController{
 
   public function createdeviceAction(){
     $this->view->headTitle(" | Add device");
-    $form = new Admin_Form_AddDeviceTransfer();    
+    $form = new Admin_Form_AddDeviceTransfer();
     $id = $this->_request->getParam('id');
     $form->transfer_id->setValue($id);
     $mdevice = new Admin_Model_DeviceTransfer;
@@ -339,14 +339,14 @@ class Admin_TransferController extends Admin_AuthController{
     }
   }
 
-  public function deletedeviceAction(){    
+  public function deletedeviceAction(){
     $did=$this->_request->getParam('id');
     $mdevice=new Admin_Model_DeviceTransfer;
     $device = $mdevice->show($did);
     $id=$device['transfer_id'];
     if($mdevice->delete($did)){
       $mtransfer = new Admin_Model_Transfer;
-      $transfer = $mtransfer->show($id);      
+      $transfer = $mtransfer->show($id);
       $device_detail = $this->getDeviceDetail($device['device_id']);
       $device_no = $device_detail['device_no'];
       $value = explode(".", $device_no);
@@ -368,7 +368,7 @@ class Admin_TransferController extends Admin_AuthController{
       }
       $detail = array('device_no'=>implode('.', $value), 'department_id'=>$department,
         'institute_id'=>$institute, 'room_id'=>$room, 'status_id'=>$status, 'use_date'=>$use_date);
-      $mdetail = new Admin_Model_DeviceDetail;      
+      $mdetail = new Admin_Model_DeviceDetail;
       $mdetail->update($device_detail['id'], $detail);
     }
     else{
@@ -379,7 +379,7 @@ class Admin_TransferController extends Admin_AuthController{
   }
 
   private function setSeclectTransfer($form, $kind){
-    if($kind == "department"){      
+    if($kind == "department"){
       $mdepartment = new Admin_Model_Department;
       $department = array();
       foreach ($mdepartment->listall() as $b) {
@@ -387,7 +387,7 @@ class Admin_TransferController extends Admin_AuthController{
       }
       $form->department_to->addMultiOptions($department);
       $form->department_from->addMultiOptions($department);
-    }elseif($kind == "institute"){      
+    }elseif($kind == "institute"){
       $minstitute = new Admin_Model_Institute;
       $institute = array();
       foreach ($minstitute->index() as $b) {
@@ -441,7 +441,7 @@ class Admin_TransferController extends Admin_AuthController{
     $day = array();
     for($i=1; $i<32; $i++) {
       $day[$i] = $i;
-    }   
+    }
     $month = array();
     for($i=1; $i<13; $i++) {
       $month[$i] = date('F', strtotime($i.'/1/1990'));
@@ -451,7 +451,7 @@ class Admin_TransferController extends Admin_AuthController{
       $year[$i] = $i;
     }
     $form->transfer_date_month->addMultiOptions($month);
-    $form->transfer_date_day->addMultiOptions($day); 
+    $form->transfer_date_day->addMultiOptions($day);
     $form->transfer_date_year->addMultiOptions($year);
   }
 

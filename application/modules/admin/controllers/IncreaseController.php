@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_IncreaseController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Increases");        
+    $this->view->headTitle(" | Increases");
     $mincrease=new Admin_Model_Increase;
     $paginator = Zend_Paginator::factory($mincrease->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -24,12 +24,12 @@ class Admin_IncreaseController extends Admin_AuthController{
     $this->setDate($form, 'increase_date');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
-        $request = $this->getRequest();        
+      if($form->isValid($this->_request->getPost())){
+        $request = $this->getRequest();
         $invoice_no = $request->getParam('invoice_no');
         $increase_date = $request->getParam('increase_date_year').'-'.$request
         ->getParam('increase_date_month').'-'.$request->getParam('increase_date_day');
-        $funds = $request->getParam('funds'); 
+        $funds = $request->getParam('funds');
         $provider_id = $request->getParam('provider_id');
         $data = array ('invoice_no' => $invoice_no, 'increase_date' => $increase_date, 'funds' => $funds,
           'provider_id'=>$provider_id);
@@ -47,8 +47,8 @@ class Admin_IncreaseController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit increase");
     $form = new Admin_Form_CreateIncrease();
-    $mincrease = new Admin_Model_Increase;    
-    $increase = $mincrease->show($this->_request->getParam('id'));    
+    $mincrease = new Admin_Model_Increase;
+    $increase = $mincrease->show($this->_request->getParam('id'));
     $form->provider_id->setValue($increase['provider_id']);
     $form->invoice_no->setValue($increase['invoice_no']);
     $value = explode("-", $increase['increase_date']);
@@ -56,12 +56,12 @@ class Admin_IncreaseController extends Admin_AuthController{
     $form->increase_date_month->setValue($value[1]);
     $form->increase_date_year->setValue($value[0]);
     $form->funds->setValue($increase['funds']);
-    $this->setSeclectProvider($form);    
+    $this->setSeclectProvider($form);
     $this->setDate($form, 'increase_date');
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $invoice_no = $request->getParam('invoice_no');
         $increase_date = $request->getParam('increase_date_year').'-'.$request
@@ -94,17 +94,17 @@ class Admin_IncreaseController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/increase/index');
   }
 
   public function devicesAction(){
-    $this->view->headTitle(" | Increase's Detail");        
+    $this->view->headTitle(" | Increase's Detail");
     $mdevice = new Admin_Model_DeviceIncrease;
     $this->view->id = $this->_request->getParam('id');
     $paginator = Zend_Paginator::factory($mdevice->index($this->_request->getParam('id')));
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -114,7 +114,7 @@ class Admin_IncreaseController extends Admin_AuthController{
 
   public function createdeviceAction(){
     $this->view->headTitle(" | Add device");
-    $form = new Admin_Form_AddDevice();    
+    $form = new Admin_Form_AddDevice();
     $id = $this->_request->getParam('id');
     $form->increase_id->setValue($id);
     $form->production_date_day->setValue(date('d'));
@@ -135,14 +135,14 @@ class Admin_IncreaseController extends Admin_AuthController{
         $guarantee = $request->getParam('guarantee');
         $install_fee = $request->getParam('install_fee');
         $transport_fee = $request->getParam('transport_fee');
-        $data = array('device_id' => $device_id, 'transport_fee' => $transport_fee, 
-          'install_fee' => $install_fee, 'guarantee' => $guarantee, 'cost' => $cost, 
+        $data = array('device_id' => $device_id, 'transport_fee' => $transport_fee,
+          'install_fee' => $install_fee, 'guarantee' => $guarantee, 'cost' => $cost,
           'quantity' => $quantity, 'increase_id'=>$id, 'production_date'=>$production_date);
         if($mdevice->create($data)){
           $mdetail = new Admin_Model_DeviceDetail;
           $mdv = new Admin_Model_Device;
-          for($i=1; $i< $quantity+1; $i++){            
-            $detail = array('device_id' => $device_id, 'status_id' => 1, 'device_no' => $mdv->show($device_id)['sign'].'.'.$id.'.'.$i, 
+          for($i=1; $i< $quantity+1; $i++){
+            $detail = array('device_id' => $device_id, 'status_id' => 1, 'device_no' => $mdv->show($device_id)['sign'].'.'.$id.'.'.$i,
               'production_date' => $production_date, 'increase_id' => $id);
             $mdetail->create($detail);
           }
@@ -188,8 +188,8 @@ class Admin_IncreaseController extends Admin_AuthController{
         $guarantee = $request->getParam('guarantee');
         $install_fee = $request->getParam('install_fee');
         $transport_fee = $request->getParam('transport_fee');
-        $data = array ('device_id' => $device_id, 'transport_fee' => $transport_fee, 
-          'install_fee' => $install_fee, 'guarantee' => $guarantee, 'cost' => $cost, 
+        $data = array ('device_id' => $device_id, 'transport_fee' => $transport_fee,
+          'install_fee' => $install_fee, 'guarantee' => $guarantee, 'cost' => $cost,
           'quantity' => $quantity, 'increase_id'=>$id, 'production_date' => $production_date);
         if($mdevice->update($did, $data)){
           if($device_id != $device['device_id'] || $production_date != $device['production_date'] || $quantity != $device['quantity']){
@@ -199,8 +199,8 @@ class Admin_IncreaseController extends Admin_AuthController{
             foreach($details as $detail){
               $mdetail->delete($detail['id']);
             }
-            for($i=1; $i< $quantity+1; $i++){            
-              $detail = array('device_id' => $device_id, 'status_id' => 1, 'device_no' => $mdv->show($device_id)['sign'].'.'.$id.'.'.$i, 
+            for($i=1; $i< $quantity+1; $i++){
+              $detail = array('device_id' => $device_id, 'status_id' => 1, 'device_no' => $mdv->show($device_id)['sign'].'.'.$id.'.'.$i,
                 'production_date' => $production_date, 'increase_id' => $id);
               $mdetail->create($detail);
             }
@@ -215,7 +215,7 @@ class Admin_IncreaseController extends Admin_AuthController{
     }
   }
 
-  public function deletedeviceAction(){    
+  public function deletedeviceAction(){
     $did=$this->_request->getParam('id');
     $mdevice=new Admin_Model_DeviceIncrease;
     $device = $mdevice->show($did);
@@ -248,7 +248,7 @@ class Admin_IncreaseController extends Admin_AuthController{
     $day = array();
     for($i=1; $i<32; $i++) {
       $day[$i] = $i;
-    }   
+    }
     $month = array();
     for($i=1; $i<13; $i++) {
       $month[$i] = date('F', strtotime($i.'/1/1990'));
@@ -259,12 +259,12 @@ class Admin_IncreaseController extends Admin_AuthController{
     }
     if($element == 'production_date'){
       $form->production_date_month->addMultiOptions($month);
-      $form->production_date_day->addMultiOptions($day); 
+      $form->production_date_day->addMultiOptions($day);
       $form->production_date_year->addMultiOptions($year);
     }
     else{
       $form->increase_date_month->addMultiOptions($month);
-      $form->increase_date_day->addMultiOptions($day); 
+      $form->increase_date_day->addMultiOptions($day);
       $form->increase_date_year->addMultiOptions($year);
     }
   }

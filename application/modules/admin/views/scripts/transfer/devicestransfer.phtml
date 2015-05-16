@@ -11,13 +11,13 @@
       <th>Status</th>
       <th>Funds</th>
       <th>Old sign</th>
-      <th>New sign</th>  
+      <th>New sign</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach($this->data as $key=>$item){ ?>
-      <tr>        
+      <tr>
         <td><?= $key+1 ?></td>
         <td>
           <a href="<?=$this->url(array('controller'=>'device','action'=>'show','id'=>$this->controller->getDevice($this->controller->getDeviceDetail($item['device_id'])['device_id'])['id']))?>">
@@ -31,12 +31,12 @@
         <td><?= $this->controller->getIncrease($this->controller->getDeviceDetail($item['device_id'])['increase_id'])['funds'] ?></td>
         <td><?= $this->controller->getDeviceOld($item['device_id'], $item['transfer_id']) ?></td>
         <td><?= $this->controller->getDeviceDetail($item['device_id'])['device_no'] ?></td>
-        <td><a href="<?=$this->url(array('controller'=>'transfer','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'transfer','action'=>'deletedevice','id'=>$item['id']))?>">Delete</a></td>
       </tr>
-    <?php } ?>    
+    <?php } ?>
   </tbody>
 </table>
-<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'transfer','action'=>'index'), 
+<a href="<?=$this->url(array('module'=>'admin', 'controller'=>'transfer','action'=>'index'),
 null, true)?>" class="btn btn-primary">Back</a>
 <?php
 if($this->data->count() > 1){

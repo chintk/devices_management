@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_BuildingController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Buildings");        
+    $this->view->headTitle(" | Buildings");
     $mbuilding=new Admin_Model_Building;
     $paginator = Zend_Paginator::factory($mbuilding->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -18,10 +18,10 @@ class Admin_BuildingController extends Admin_AuthController{
     $mbuilding = new Admin_Model_Building;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
-        $description = $request->getParam('description'); 
+        $description = $request->getParam('description');
         $data = array ('name' => $name, 'description' => $description);
         if($mbuilding->create($data)){
           $this->_redirect('/admin/building/index');
@@ -37,14 +37,14 @@ class Admin_BuildingController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit building");
     $form = new Admin_Form_CreateLocation();
-    $mbuilding = new Admin_Model_Building;    
+    $mbuilding = new Admin_Model_Building;
     $building = $mbuilding->show($this->_request->getParam('id'));
     $form->name->setValue($building['name']);
     $form->description->setValue($building['description']);
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $description = $request->getParam('description');
@@ -68,7 +68,7 @@ class Admin_BuildingController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/building/index');
   }

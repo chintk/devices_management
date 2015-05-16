@@ -21,7 +21,7 @@
         </td>
         <td><?= $item['description'] ?></td>
         <td><?= $this->controller->getType($item['type_id'])['name'] ?></td>
-        <td><a href="<?=$this->url(array('controller'=>'category','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'category','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

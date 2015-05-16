@@ -1,6 +1,6 @@
 <?php
 class Admin_Form_CreateUser extends Zend_Form{
-  public function init(){   
+  public function init(){
     $this->addElement('text','email',array('label'=>'Email', 'class'=>'form-control'));
     $email = $this->getElement('email');
     $email->setRequired(true)->addValidator('NotEmpty',true)
