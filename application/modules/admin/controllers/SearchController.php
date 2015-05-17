@@ -17,7 +17,6 @@ class Admin_SearchController extends Admin_AuthController
             $form->populate(compact('attributeId', 'attributeValueId'));
 
             // Do search here
-
             $mDevice = new Admin_Model_Device();
             $mDeviceDetail = new Admin_Model_DeviceDetail();
             $mFactory = new Admin_Model_Factory();
@@ -30,7 +29,7 @@ class Admin_SearchController extends Admin_AuthController
 
             $this->view->data = $paginator;
             $this->view->deviceDetails = $mDeviceDetail->findListByDeviceIds($mDevice->getIdsFromList($paginator));
-            $this->view->factories = $mFactory->findList();
+            $this->view->factories = $mFactory->makeList($mFactory->index());
         }
 
         $this->view->form = $form;

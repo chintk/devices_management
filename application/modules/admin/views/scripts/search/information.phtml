@@ -27,4 +27,7 @@
             </table>
         <?php endif ?>
     </div>
+    <?php if ($this->data->count() > 1): ?>
+        <?php echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml'); ?>
+    <?php endif ?>
 <?php endif ?>
