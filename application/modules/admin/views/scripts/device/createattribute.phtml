@@ -4,3 +4,18 @@
     <?php echo $this->form ?>
   </div>
 </div>
+<script type="text/javascript">
+$('#attribute_id').change(function(){
+  var attribute_id = $(this).find('option:selected').val();
+  $.ajax({
+    type: "GET",
+    url: "/device_management/admin/device/setselectattribute",
+    data: {"id": attribute_id},
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    success: function (result) {
+      $("#value_id").html(result);
+    }
+  });
+});
+</script>

@@ -190,12 +190,24 @@ class Admin_DeviceController extends Admin_AuthController{
       $attribute[$b['id']] = $b['name'];
     }
     $form->attribute_id->addMultiOptions($attribute);
+
     $mvalue = new Admin_Model_AttributeValue;
     $value = array();
     foreach ($mvalue->index() as $b) {
       $value[$b['id']] = $b['name'];
     }
     $form->value_id->addMultiOptions($value);
+  }
+
+  public function setselectattributeAction(){
+    $id = $this->_request->getParam('id');
+    $mvalue = new Admin_Model_AttributeValue;
+    $value = "";
+    foreach ($mvalue->listvalue($id) as $b) {
+      $value .= "<option value='".$b['id']."'>".$b['name']."</option>";
+    }
+    echo json_encode($value);
+    exit;
   }
 
   public function getCategory($id){

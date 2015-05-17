@@ -31,14 +31,8 @@
     <?php } ?>
   </tbody>
 </table>
-<input type="text" id="datepicker">
 <?php
 if($this->data->count() > 1){
   echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml');
 }
 ?>
-<script>
-  $(function() {
-    $( "#datepicker" ).datepicker();
-  });
-  </script>

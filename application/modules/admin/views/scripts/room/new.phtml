@@ -4,18 +4,3 @@
     <?php echo $this->form ?>
   </div>
 </div>
-<script type="text/javascript">
-$('#institute_id').change(function(){
-  var institute_id = $(this).find('option:selected').val();
-  $.ajax({
-    type: "GET",
-    url: "/device_management/admin/room/setselectdepartment",
-    data: {"id": institute_id},
-    contentType: "application/json;charset=utf-8",
-    dataType: "json",
-    success: function (result) {
-      $("#department_id").html(result);
-    }
-  });
-});
-</script>
