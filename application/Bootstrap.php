@@ -34,6 +34,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
       $acl->addResource(new Zend_Acl_Resource('admin:transfer'));
       $acl->addResource(new Zend_Acl_Resource('admin:search'));
       $acl->addResource(new Zend_Acl_Resource('admin:borrow'));
+      $acl->addResource(new Zend_Acl_Resource('admin:report'));
       $acl->addResource(new Zend_Acl_Resource('default:index'));
       $acl->addResource(new Zend_Acl_Resource('default:user'));
       $acl->allow('admin');

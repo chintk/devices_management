@@ -1,7 +1,7 @@
 <?php
-class Admin_Model_Device
+class Admin_Model_Device extends Admin_Model_AbstractModel
 {
-    protected $db;
+     protected $db;
 
     public function __construct()
     {
@@ -17,22 +17,22 @@ class Admin_Model_Device
     public function searchByInformation($attributeId, $attributeValueId)
     {
         $query = 'SELECT * FROM device ';
-        $wheres = [];
+        $wheres = array();
 
         if ($attributeId) {
             $wheres[] = "EXISTS (
                 SELECT *
-                  FROM device_attribute
-                 WHERE device_attribute.device_id = device.id
-                   AND device_attribute.attribute_id = {$attributeId}) ";
+                FROM device_attribute
+                WHERE device_attribute.device_id = device.id
+                AND device_attribute.attribute_id = {$attributeId}) ";
         }
 
         if ($attributeValueId) {
             $wheres[] = "EXISTS (
                 SELECT *
-                  FROM device_attribute
-                 WHERE device_attribute.device_id = device.id
-                   AND device_attribute.value_id = {$attributeValueId}) ";
+                FROM device_attribute
+                WHERE device_attribute.device_id = device.id
+                AND device_attribute.value_id = {$attributeValueId}) ";
         }
 
         if (!empty($wheres)) {
@@ -41,18 +41,63 @@ class Admin_Model_Device
 
         $query .= 'ORDER BY id ASC';
 
-        $sql=$this->db->query($query);
+        $sql = $this->db->query($query);
         return $sql->fetchAll();
     }
 
-    public function getIdsFromList($devices)
+    public function searchByInstituteId($instituteId, $startDate)
     {
-        $ids = array();
-        foreach ($devices as $device) {
-            $ids[] = $device['id'];
-        }
-        return $ids;
+        $query = "SELECT
+            *,
+            (
+                SELECT increase_date
+                FROM increase
+                WHERE increase.id = (
+                    SELECT increase_id
+                    FROM device_detail
+                    WHERE device_detail.device_id = device.id
+                    AND device_detail.institute_id = {$instituteId}
+                    ORDER BY id
+                    LIMIT 1
+                )
+            ) AS increase_date
+            FROM device ";
 
+        $wheres = array();
+
+        if ($instituteId) {
+            $wheres[] = "EXISTS (
+                SELECT *
+                FROM device_detail
+                WHERE device_detail.device_id = device.id
+                AND device_detail.institute_id = {$instituteId}) ";
+        }
+
+
+        if (!empty($wheres)) {
+            $query .= 'WHERE ' . implode(' AND ', $wheres);
+        }
+
+        if ($startDate) {
+            $query .= "HAVING increase_date >= '{$startDate}' ";
+        }
+
+        $query .= "ORDER BY id ASC";
+
+        $sql = $this->db->query($query);
+        return $sql->fetchAll();
+    }
+
+    public function addExternalData(&$device)
+    {
+        $mDeviceDetail = new Admin_Model_DeviceDetail();
+        $mDeviceIncrease = new Admin_Model_DeviceIncrease();
+        $mDeviceStatus = new Admin_Model_DeviceStatus();
+
+        $device['device_details'] = $mDeviceDetail->findAllByDeviceId($device['id']);
+        $device['device_increases'] = $mDeviceIncrease->findAllByDeviceId($device['id']);
+        $device['device_increase_cost'] = $mDeviceIncrease->findTotalCostByDeviceId($device['id']);
+        $device['device_statuses'] = $mDeviceStatus->findAllByDeviceId($device['id']);
     }
 
     public function create($data)

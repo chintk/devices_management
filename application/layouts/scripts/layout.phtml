@@ -2,23 +2,29 @@
 <html>
 <head>
 <?php
-  echo $this->headTitle();
-  echo $this->headLink()->appendStylesheet(APPLICATION_NAME."/public/css/style.css")
-                        ->appendStylesheet(APPLICATION_NAME."/public/css/application.css");
-  echo $this->headScript()->appendFile(APPLICATION_NAME."/public/js/application.js");
-  echo $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=UTF-8');
+    echo $this->headTitle();
+    echo $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=UTF-8');
+    echo $this->headLink()->appendStylesheet(APPLICATION_NAME . "/public/bootstrap/dist/css/bootstrap.min.css")
+                          ->appendStylesheet(APPLICATION_NAME . "/public/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css")
+                          ->appendStylesheet(APPLICATION_NAME . "/public/css/style.css");
 ?>
 <!--[if lt IE 9]>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
-  </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+    </script>
 <![endif]-->
 </head>
 <body>
-  <?php echo $this->render('header.phtml'); ?>
-  <div class="container">
+    <?php echo $this->render('header.phtml'); ?>
+    <div class="container">
+        <?php
+            echo $this->layout()->content;
+        ?>
+    </div>
     <?php
-        echo $this->layout()->content;
+        echo $this->headScript()->appendFile(APPLICATION_NAME . "/public/js/jquery-1.11.3.min.js")
+                                ->appendFile(APPLICATION_NAME . "/public/bootstrap/dist/js/bootstrap.min.js")
+                                ->appendFile(APPLICATION_NAME . "/public/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
+                                ->appendFile(APPLICATION_NAME . "/public/js/script.js");
     ?>
-  </div>
 </body>
 </html>

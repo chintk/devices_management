@@ -1,0 +1,61 @@
+<h1>Quản lý tài sản viện</h1>
+<div class="row well">
+    <div class="col-md-6">
+        <?php echo $this->form ?>
+    </div>
+</div>
+<?php if (isset($this->data)): ?>
+    <div class="row">
+        <?php if ($this->data->count() == 0): ?>
+            <div class="alert alert-danger">No result found</div>
+        <?php else: ?>
+            <table class="table table-bordered">
+                <tr class="info">
+                    <th>TT</th>
+                    <th>Tên thiết bị và chỉ tiêu kỹ thuật chính</th>
+                    <th>Số máy</th>
+                    <th>N­ước SX</th>
+                    <th>Ngày nhập</th>
+                    <th>Đơn giá<br />(1000đ)</th>
+                    <th>Thành tiền<br />(1000đ)</th>
+                    <th>Tình trạng</th>
+                    <th>Nguồn tiền</th>
+                    <th>Số tài sản</th>
+                </tr>
+                <?php foreach ($this->data as $id => $device): ?>
+                <tr>
+                    <td><?= ($id + 1) ?></td>
+                    <td><?= $device['name'] ?></td>
+                    <td><?= $device['sign'] ?></td>
+                    <td><?= $this->countries[$this->factories[$device['factory_id']]['country_id']]['name'] ?></td>
+                    <td>
+                        <?php foreach ($device['device_increases'] as $deviceIncrease): ?>
+                            <?= $deviceIncrease['increase_date'] ?><br />
+                        <?php endforeach ?>
+                    </td>
+                    <td><?= $device['device_increase_cost']['sum_cost'] ?></td>
+                    <td><?= ($device['device_increase_cost']['sum_cost'] + $device['device_increase_cost']['sum_install_fee'] + $device['device_increase_cost']['sum_transport_fee']) ?></td>
+                    <td>
+                        <?php foreach ($device['device_statuses'] as $deviceStatus): ?>
+                            <?= $deviceStatus['name'] ?><br />
+                        <?php endforeach ?>
+                    </td>
+                    <td>
+                        <?php foreach ($device['device_increases'] as $deviceIncrease): ?>
+                            <?= $deviceIncrease['increase_funds'] ?><br />
+                        <?php endforeach ?>
+                    </td>
+                    <td>
+                        <?php foreach ($device['device_details'] as $deviceDetail): ?>
+                            <?= $deviceDetail['device_no'] ?><br />
+                        <?php endforeach ?>
+                    </td>
+                </tr>
+                <?php endforeach ?>
+            </table>
+        <?php endif ?>
+    </div>
+    <?php if ($this->data->count() > 1): ?>
+        <?php echo $this->paginationControl($this->data, 'Sliding' , 'index/pagination.phtml'); ?>
+    <?php endif ?>
+<?php endif ?>
