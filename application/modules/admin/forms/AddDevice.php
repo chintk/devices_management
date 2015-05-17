@@ -5,7 +5,7 @@ class Admin_Form_AddDevice extends Zend_Form{
 
     $this->addElement('select','device_id',array('label'=>'Device', 'class'=>'form-control'));
 
-    $this->addElement('select','production_date_day',array('label'=>'Production date', 
+    $this->addElement('select','production_date_day',array('label'=>'Production date',
         'class'=>'form-control'));
 
     $this->addElement('select','production_date_month',array('class'=>'form-control'));
@@ -13,7 +13,7 @@ class Admin_Form_AddDevice extends Zend_Form{
 
     $this->addElement('select','production_date_year',array('class'=>'form-control'));
     $this->getElement('production_date_year')->removeDecorator('Label');
-    
+
     $this->addElement('text','quantity',array('label'=>'Quantity', 'class'=>'form-control'));
 
     $this->addElement('text','cost',array('label'=>'Cost', 'class'=>'form-control'));

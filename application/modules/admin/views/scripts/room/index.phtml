@@ -25,7 +25,7 @@
         <td><?= $this->controller->getBuilding($item['building_id'])['name']; ?></td>
         <td><?= $this->controller->getInstitute($item['institute_id'])['name']; ?></td>
         <td><?= $this->controller->getDepartment($item['department_id'])['name']; ?></td>
-        <td><a href="<?=$this->url(array('controller'=>'room','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'room','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

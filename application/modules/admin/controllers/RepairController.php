@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_RepairController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Repairs");        
+    $this->view->headTitle(" | Repairs");
     $mrepair=new Admin_Model_Repair;
     $paginator = Zend_Paginator::factory($mrepair->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -19,17 +19,17 @@ class Admin_RepairController extends Admin_AuthController{
     $mrepair = new Admin_Model_Repair;
     $form->disposal_date_day->setValue(date('d'));
     $form->disposal_date_month->setValue(date('m'));
-    $form->disposal_date_year->setValue(date('Y'));    
+    $form->disposal_date_year->setValue(date('Y'));
     $form->disposal_date_day->setLabel('Repair date');
     $this->setSeclectProvider($form);
     $this->setDateRepair($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $repair_date = $request->getParam('disposal_date_year').'-'.$request
         ->getParam('disposal_date_month').'-'.$request->getParam('disposal_date_day');
-        $description = $request->getParam('description'); 
+        $description = $request->getParam('description');
         $provider_id = $request->getParam('provider_id');
         $data = array ('repair_date' => $repair_date, 'description' => $description,
           'provider_id'=>$provider_id);
@@ -47,8 +47,8 @@ class Admin_RepairController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit repair");
     $form = new Admin_Form_CreateDisposal();
-    $mrepair = new Admin_Model_Repair;    
-    $repair = $mrepair->show($this->_request->getParam('id'));    
+    $mrepair = new Admin_Model_Repair;
+    $repair = $mrepair->show($this->_request->getParam('id'));
     $form->provider_id->setValue($repair['provider_id']);
     $form->description->setValue($repair['description']);
     $value = explode("-", $repair['repair_date']);
@@ -61,7 +61,7 @@ class Admin_RepairController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $repair_date = $request->getParam('disposal_date_year').'-'.$request
         ->getParam('disposal_date_month').'-'.$request->getParam('disposal_date_day');
@@ -99,17 +99,17 @@ class Admin_RepairController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/repair/index');
   }
 
   public function devicesAction(){
-    $this->view->headTitle(" | Repair's Detail");        
+    $this->view->headTitle(" | Repair's Detail");
     $mdevice = new Admin_Model_DeviceRepair;
     $this->view->id = $this->_request->getParam('id');
     $paginator = Zend_Paginator::factory($mdevice->index($this->_request->getParam('id')));
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -119,18 +119,18 @@ class Admin_RepairController extends Admin_AuthController{
 
   public function createdeviceAction(){
     $this->view->headTitle(" | Add device");
-    $form = new Admin_Form_AddDeviceTransfer();    
+    $form = new Admin_Form_AddDeviceTransfer();
     $id = $this->_request->getParam('id');
     $form->transfer_id->setValue($id);
     $mdevice = new Admin_Model_DeviceRepair;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
-        $request = $this->getRequest();       
+        $request = $this->getRequest();
         $mdetail = new Admin_Model_DeviceDetail;
         $device = $mdetail->getByDeviceNo($request->getParam('device_no'));
         $data = array('device_id' => $device['id'], 'repair_id'=>$id);
-        if($mdevice->create($data)){           
+        if($mdevice->create($data)){
           $detail = array('status_id' => 3);
           $mdetail->update($device['id'], $detail);
           $this->_redirect('/admin/repair/devices/id/'.$id);
@@ -179,7 +179,7 @@ class Admin_RepairController extends Admin_AuthController{
     }
   }
 
-  public function deletedeviceAction(){    
+  public function deletedeviceAction(){
     $did=$this->_request->getParam('id');
     $mdevice=new Admin_Model_DeviceRepair;
     $device = $mdevice->show($did);
@@ -214,7 +214,7 @@ class Admin_RepairController extends Admin_AuthController{
     $day = array();
     for($i=1; $i<32; $i++) {
       $day[$i] = $i;
-    }   
+    }
     $month = array();
     for($i=1; $i<13; $i++) {
       $month[$i] = date('F', strtotime($i.'/1/1990'));
@@ -224,7 +224,7 @@ class Admin_RepairController extends Admin_AuthController{
       $year[$i] = $i;
     }
     $form->reuse_date_month->addMultiOptions($month);
-    $form->reuse_date_day->addMultiOptions($day); 
+    $form->reuse_date_day->addMultiOptions($day);
     $form->reuse_date_year->addMultiOptions($year);
   }
 
@@ -232,7 +232,7 @@ class Admin_RepairController extends Admin_AuthController{
     $day = array();
     for($i=1; $i<32; $i++) {
       $day[$i] = $i;
-    }   
+    }
     $month = array();
     for($i=1; $i<13; $i++) {
       $month[$i] = date('F', strtotime($i.'/1/1990'));
@@ -242,7 +242,7 @@ class Admin_RepairController extends Admin_AuthController{
       $year[$i] = $i;
     }
     $form->disposal_date_month->addMultiOptions($month);
-    $form->disposal_date_day->addMultiOptions($day); 
+    $form->disposal_date_day->addMultiOptions($day);
     $form->disposal_date_year->addMultiOptions($year);
   }
 

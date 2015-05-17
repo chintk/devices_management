@@ -3,7 +3,7 @@ class ErrorController extends Zend_Controller_Action{
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
-        
+
         if (!$errors || !$errors instanceof ArrayObject) {
             $this->view->message = 'You have reached the error page';
             echo "You don't have permission to access this action";
@@ -45,4 +45,4 @@ class ErrorController extends Zend_Controller_Action{
         $log = $bootstrap->getResource('Log');
         return $log;
     }
-} 
+}

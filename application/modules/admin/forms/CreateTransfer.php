@@ -3,8 +3,8 @@ class Admin_Form_CreateTransfer extends Zend_Form{
   public function init(){
 
     $this->addElement('text','decision',array('label'=>'Decision', 'class'=>'form-control'));
-    
-    $this->addElement('select','transfer_date_day',array('label'=>'Transfer date', 
+
+    $this->addElement('select','transfer_date_day',array('label'=>'Transfer date',
         'class'=>'form-control'));
 
     $this->addElement('select','transfer_date_month',array('class'=>'form-control'));

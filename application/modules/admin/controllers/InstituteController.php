@@ -2,10 +2,10 @@
 require_once 'AuthController.php';
 class Admin_InstituteController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Institutes");        
+    $this->view->headTitle(" | Institutes");
     $minstitute=new Admin_Model_Institute;
     $paginator = Zend_Paginator::factory($minstitute->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -19,11 +19,11 @@ class Admin_InstituteController extends Admin_AuthController{
     $minstitute = new Admin_Model_Institute;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $sign = $request->getParam('sign');
         $name = $request->getParam('name');
-        $description = $request->getParam('description'); 
+        $description = $request->getParam('description');
         $data = array ('sign' => $sign, 'name' => $name, 'description' => $description);
         if($minstitute->create($data)){
           $this->_redirect('/admin/institute/index');
@@ -39,7 +39,7 @@ class Admin_InstituteController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit institute");
     $form = new Admin_Form_CreateInstitute();
-    $minstitute = new Admin_Model_Institute;    
+    $minstitute = new Admin_Model_Institute;
     $institute = $minstitute->show($this->_request->getParam('id'));
     $form->sign->setValue($institute['sign']);
     $form->name->setValue($institute['name']);
@@ -47,8 +47,8 @@ class Admin_InstituteController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
-        $request = $this->getRequest();        
+      if($form->isValid($this->_request->getPost())){
+        $request = $this->getRequest();
         $sign = $request->getParam('sign');
         $name = $request->getParam('name');
         $description = $request->getParam('description');
@@ -72,17 +72,17 @@ class Admin_InstituteController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/institute/index');
   }
 
   public function departmentsAction(){
-    $this->view->headTitle(" | Departments");        
+    $this->view->headTitle(" | Departments");
     $mdepartment=new Admin_Model_Department;
     $this->view->id = $this->_request->getParam('id');
     $paginator = Zend_Paginator::factory($mdepartment->index($this->_request->getParam('id')));
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -95,7 +95,7 @@ class Admin_InstituteController extends Admin_AuthController{
     $mdepartment = new Admin_Model_Department;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $sign = $request->getParam('sign');
         $name = $request->getParam('name');
@@ -125,7 +125,7 @@ class Admin_InstituteController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $sign = $request->getParam('sign');
         $name = $request->getParam('name');
@@ -143,7 +143,7 @@ class Admin_InstituteController extends Admin_AuthController{
     }
   }
 
-  public function deletedepartmentAction(){    
+  public function deletedepartmentAction(){
     $did=$this->_request->getParam('id');
     $mdepartment=new Admin_Model_Department;
     $id=$mdepartment->show($did)['institute_id'];

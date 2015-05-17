@@ -3,7 +3,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
   protected function _initDatabase(){
     $db = $this->getPluginResource('db')->getDbAdapter();
-    Zend_Registry::set('db', $db);   
+    Zend_Registry::set('db', $db);
   }
 
   protected function _initAcl(){
@@ -32,6 +32,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
       $acl->addResource(new Zend_Acl_Resource('admin:repair'));
       $acl->addResource(new Zend_Acl_Resource('admin:reuse'));
       $acl->addResource(new Zend_Acl_Resource('admin:transfer'));
+      $acl->addResource(new Zend_Acl_Resource('admin:search'));
+      $acl->addResource(new Zend_Acl_Resource('admin:borrow'));
       $acl->addResource(new Zend_Acl_Resource('default:index'));
       $acl->addResource(new Zend_Acl_Resource('default:user'));
       $acl->allow('admin');
@@ -39,4 +41,4 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
       $acl->allow(null,'default:user',null);
       Zend_Registry::set('acl', $acl);
   }
-} 
+}

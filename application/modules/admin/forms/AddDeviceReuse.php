@@ -5,7 +5,7 @@ class Admin_Form_AddDeviceReuse extends Zend_Form{
 
     $this->addElement('text','repair_cost',array('label'=>'Cost', 'class'=>'form-control'));
 
-    $this->addElement('select','reuse_date_day',array('label'=>'Reuse date', 
+    $this->addElement('select','reuse_date_day',array('label'=>'Reuse date',
         'class'=>'form-control'));
 
     $this->addElement('select','reuse_date_month',array('class'=>'form-control'));

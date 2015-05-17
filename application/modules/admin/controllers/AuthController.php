@@ -1,9 +1,9 @@
 <?php
 class Admin_AuthController extends Zend_Controller_Action{
-  public function init(){    
+  public function init(){
     $this->view->headTitle("Admin");
-  }    
-  
+  }
+
   public function preDispatch(){
     $auth = Zend_Auth::getInstance();
     if($auth->hasIdentity()){
@@ -25,7 +25,7 @@ class Admin_AuthController extends Zend_Controller_Action{
       if(!$acl->isAllowed($role,$resource,$action)){
         $this->_redirect('/index/error');
       }
-      $this->view->user = $auth->getIdentity();     
+      $this->view->user = $auth->getIdentity();
     }else{
       $this->_redirect('/index/login');
     }

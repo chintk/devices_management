@@ -1,5 +1,5 @@
 <h1>Manager Factories</h1>
-<a href="<?=$this->url(array('controller'=>'factory','action'=>'new'))?>">Create factory</a> 
+<a href="<?=$this->url(array('controller'=>'factory','action'=>'new'))?>">Create factory</a>
 <table class="table">
   <thead>
     <tr>
@@ -23,7 +23,7 @@
         <td><?= $this->controller->getCountry($item['country_id'])['name'] ?></td>
         <td><?= $item['phone'] ?></td>
         <td><?= $item['founded'] ?></td>
-        <td><a href="<?=$this->url(array('controller'=>'factory','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>   
+        <td><a href="<?=$this->url(array('controller'=>'factory','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
       </tr>
     <?php } ?>
   </tbody>

@@ -14,7 +14,8 @@
               Search <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="">Infomation</a></li>
+              <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'search',
+                'action'=>'information'), null, true)?>">Infomation</a></li>
               <li><a href="">Address</a></li>
             </ul>
           </li>
@@ -23,7 +24,7 @@
               Devices Infomation <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <?php if($this->user->level == 1): ?>              
+              <?php if($this->user->level == 1): ?>
                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'device',
                 'module'=>'admin', 'action'=>'index'), null, true)?>">Devices</a></li>
                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'attribute',
@@ -43,7 +44,7 @@
               <?php else: ?>
               <?php endif; ?>
             </ul>
-          </li> 
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Devices Activity <b class="caret"></b>

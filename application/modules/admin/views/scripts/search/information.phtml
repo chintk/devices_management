@@ -1,0 +1,30 @@
+<h1>Search devices by information</h1>
+<div class="row well">
+    <div class="col-md-6">
+        <?php echo $this->form ?>
+    </div>
+</div>
+<?php if (isset($this->data)): ?>
+    <div class="row">
+        <?php if ($this->data->count() == 0): ?>
+            <div class="alert alert-danger">No result found</div>
+        <?php else: ?>
+            <table class="table table-bordered">
+                <tr class="info">
+                    <th>No.</th>
+                    <th>Sign</th>
+                    <th>Description</th>
+                    <th>Factory name</th>
+                </tr>
+                <?php foreach ($this->data as $device): ?>
+                    <tr>
+                        <td><?= $this->deviceDetails[$device['id']]['device_no'] ?></td>
+                        <td><?= $device['sign'] ?></td>
+                        <td><?= $device['description'] ?></td>
+                        <td><?= $this->factories[$device['factory_id']]['name'] ?></td>
+                    </tr>
+                <?php endforeach ?>
+            </table>
+        <?php endif ?>
+    </div>
+<?php endif ?>

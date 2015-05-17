@@ -6,7 +6,7 @@ class Admin_RoomController extends Admin_AuthController{
     $this->view->controller = $this;
     $mroom=new Admin_Model_Room;
     $paginator = Zend_Paginator::factory($mroom->index());
-    $paginator->setItemCountPerPage(10);       
+    $paginator->setItemCountPerPage(10);
     $paginator->setPageRange(10);
     $currentPage = $this->_request->getParam('page',1);
     $paginator->setCurrentPageNumber($currentPage);
@@ -20,7 +20,7 @@ class Admin_RoomController extends Admin_AuthController{
     $this->setSeclect($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $description = $request->getParam('description');
@@ -49,7 +49,7 @@ class Admin_RoomController extends Admin_AuthController{
   public function editAction(){
     $this->view->headTitle(" | Edit room");
     $form = new Admin_Form_CreateRoom();
-    $mroom = new Admin_Model_Room;    
+    $mroom = new Admin_Model_Room;
     $room = $mroom->show($this->_request->getParam('id'));
     $form->name->setValue($room['name']);
     $form->description->setValue($room['description']);
@@ -60,7 +60,7 @@ class Admin_RoomController extends Admin_AuthController{
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){        
+      if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $name = $request->getParam('name');
         $description = $request->getParam('description');
@@ -94,7 +94,7 @@ class Admin_RoomController extends Admin_AuthController{
     }
     else{
       echo "error";
-    }    
+    }
     $this->getHelper('viewRenderer')->setNoRender();
     $this->_redirect('/admin/room/index');
   }

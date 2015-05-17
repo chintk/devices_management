@@ -7,5 +7,5 @@ class default_Bootstrap extends Zend_Application_Module_Bootstrap
           'basePath' => dirname(__FILE__)
       ));
     return $autoloader;
-  } 
-} 
+  }
+}

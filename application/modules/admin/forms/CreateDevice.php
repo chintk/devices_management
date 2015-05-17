@@ -14,7 +14,7 @@ class Admin_Form_CreateDevice extends Zend_Form{
     $this->addElement('textarea','description',array('label'=>'Description', 'rows'=>'4', 'class'=>'form-control'));
 
     $this->addElement('select','category_id',array('label'=>'Category', 'class'=>'form-control'));
-    
+
     $this->addElement('select','factory_id',array('label'=>'Factory', 'class'=>'form-control'));
 
     $this->addElement('submit','create',array('label'=>'Create', 'class'=>'btn btn-primary'));
