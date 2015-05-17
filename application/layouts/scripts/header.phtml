@@ -1,119 +1,127 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container">
-    <a href="<?=$this->url(array('controller'=>'index',
-          'action'=>'index'), null, true)?>" id="logo">BKDMS</a>
-    <nav>
-      <ul class="nav navbar-nav navbar-right">
-        <?php if (empty($this->user)): ?>
-          <li><a href="<?=$this->url(array('controller'=>'index',
-          'action'=>'login'), null, true)?>">Log in</a></li>
-        <?php else: ?>
-          <li><a href="">Report</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              Search <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'search',
-                'action'=>'information'), null, true)?>">Infomation</a></li>
-              <li><a href="">Address</a></li>
+    <div class="container">
+        <a href="<?=$this->url(array('controller'=>'index',
+                    'action'=>'index'), null, true)?>" id="logo">BKDMS</a>
+        <nav>
+            <ul class="nav navbar-nav navbar-right">
+                <?php if (empty($this->user)): ?>
+                    <li><a href="<?=$this->url(array('controller'=>'index',
+                    'action'=>'login'), null, true)?>">Log in</a></li>
+                <?php else: ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Report <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'report',
+                                'action'=>'institute-device'), null, true)?>">Institute Device</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Search <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'search',
+                                'action'=>'information'), null, true)?>">Infomation</a></li>
+                            <li><a href="">Address</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Devices Infomation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php if($this->user->level == 1): ?>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'device',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Devices</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'attribute',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Attributes</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'category',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Categories</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'factory',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Factories</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'provider',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Providers</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'type',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Types</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'status',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Status</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'country',
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Countries</a></li>
+                            <?php else: ?>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Devices Activity <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php if($this->user->level == 1): ?>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'increase',
+                                'action'=>'index'), null, true)?>">Increase</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'repair',
+                                'action'=>'index'), null, true)?>">Repair</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'disposal',
+                                'action'=>'index'), null, true)?>">Disposal</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'borrow',
+                                'action'=>'index'), null, true)?>">Borrow</a></li>
+                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'transfer',
+                                'action'=>'index'), null, true)?>">Transfer</a></li>
+                            <?php else: ?>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                    <?php if($this->user->level == 1): ?>
+                        <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'user',
+                        'action'=>'index'), null, true)?>">Users</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Locations<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                    <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'room',
+                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Rooms</a></li>
+                                    <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'building',
+                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Buildings</a></li>
+                                    <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'institute',
+                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Institutes</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                System <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                    <li><a href="">Acl</a></li>
+                                    <li><a href="">Backup</a></li>
+                                    <li><a href="">Activity</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="<?=$this->url(array('controller'=>'index',
+                                    'action'=>'logout'), null, true)?>">Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Account <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                    <li><a href="<?=$this->url(array('controller'=>'user',
+                                    'action'=>'show'), null, true)?>">Profile</a></li>
+                                    <li><a href="<?=$this->url(array('controller'=>'user',
+                                    'action'=>'edit'), null, true)?>">Settings</a></li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="<?=$this->url(array('controller'=>'index',
+                                    'action'=>'logout'), null, true)?>">Log out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
+                <?php endif; ?>
             </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              Devices Infomation <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <?php if($this->user->level == 1): ?>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'device',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Devices</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'attribute',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Attributes</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'category',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Categories</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'factory',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Factories</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'provider',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Providers</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'type',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Types</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'status',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Status</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'country',
-                'module'=>'admin', 'action'=>'index'), null, true)?>">Countries</a></li>
-              <?php else: ?>
-              <?php endif; ?>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              Devices Activity <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <?php if($this->user->level == 1): ?>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'increase',
-                'action'=>'index'), null, true)?>">Increase</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'repair',
-                'action'=>'index'), null, true)?>">Repair</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'disposal',
-                'action'=>'index'), null, true)?>">Disposal</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'borrow',
-                'action'=>'index'), null, true)?>">Borrow</a></li>
-                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'transfer',
-                'action'=>'index'), null, true)?>">Transfer</a></li>
-              <?php else: ?>
-              <?php endif; ?>
-            </ul>
-          </li>
-          <?php if($this->user->level == 1): ?>
-            <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'user',
-            'action'=>'index'), null, true)?>">Users</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Locations<b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                  <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'room',
-                  'module'=>'admin', 'action'=>'index'), null, true)?>">Rooms</a></li>
-                  <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'building',
-                  'module'=>'admin', 'action'=>'index'), null, true)?>">Buildings</a></li>
-                  <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'institute',
-                  'module'=>'admin', 'action'=>'index'), null, true)?>">Institutes</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                System <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                  <li><a href="">Acl</a></li>
-                  <li><a href="">Backup</a></li>
-                  <li><a href="">Activity</a></li>
-                  <li class="divider"></li>
-                  <li><a href="<?=$this->url(array('controller'=>'index',
-                  'action'=>'logout'), null, true)?>">Logout</a></li>
-              </ul>
-            </li>
-          <?php else: ?>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Account <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                  <li><a href="<?=$this->url(array('controller'=>'user',
-                  'action'=>'show'), null, true)?>">Profile</a></li>
-                  <li><a href="<?=$this->url(array('controller'=>'user',
-                  'action'=>'edit'), null, true)?>">Settings</a></li>
-                <li class="divider"></li>
-                <li>
-                  <a href="<?=$this->url(array('controller'=>'index',
-                  'action'=>'logout'), null, true)?>">Log out</a>
-                </li>
-              </ul>
-            </li>
-          <?php endif; ?>
-        <?php endif; ?>
-      </ul>
-    </nav>
-  </div>
+        </nav>
+    </div>
 </header>

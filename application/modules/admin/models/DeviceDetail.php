@@ -1,5 +1,5 @@
 <?php
-class Admin_Model_DeviceDetail
+class Admin_Model_DeviceDetail extends Admin_Model_AbstractModel
 {
     protected $db;
 
@@ -24,12 +24,14 @@ class Admin_Model_DeviceDetail
         $sql = $this->db->query($query);
         $deviceDetails = $sql->fetchAll();
 
-        $list = array();
-        foreach ($deviceDetails as $deviceDetail) {
-            $list[$deviceDetail['device_id']] = $deviceDetail;
-        }
+        return $this->makeList($deviceDetails, 'device_id');
+    }
 
-        return $list;
+    public function findAllByDeviceId($deviceId)
+    {
+        $query = 'SELECT * FROM device_detail WHERE device_id = ' . $deviceId;
+        $sql = $this->db->query($query);
+        return $sql->fetchAll();
     }
 
     public function create($data)
