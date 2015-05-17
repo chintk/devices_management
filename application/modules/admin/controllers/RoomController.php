@@ -120,14 +120,15 @@ class Admin_RoomController extends Admin_AuthController{
     $form->department_id->addMultiOptions($department);
   }
 
-  private function setSeclectDepartment(){
+  public function setselectdepartmentAction(){
     $id = $this->_request->getParam('id');
     $mdepartment = new Admin_Model_Department;
-    $department = array(0=>null);
+    $department = "<option value='0' label=''></option>";   
     foreach ($mdepartment->index($id) as $b) {
-      $department[$b['id']] = $b['name'];
+      $department .= "<option value='".$b['id']."'>".$b['name']."</option>";
     }
-    echo $department;
+    echo json_encode($department);
+    exit;
   }
 
   public function getBuilding($id){
