@@ -17,18 +17,14 @@ class Admin_IncreaseController extends Admin_AuthController{
     $this->view->headTitle(" | Create increase");
     $form = new Admin_Form_CreateIncrease();
     $mincrease = new Admin_Model_Increase;
-    $form->increase_date_day->setValue(date('d'));
-    $form->increase_date_month->setValue(date('m'));
-    $form->increase_date_year->setValue(date('y')+2000);
+    $form->increase_date->setValue(date('Y-m-d'));
     $this->setSeclectProvider($form);
-    $this->setDate($form, 'increase_date');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $invoice_no = $request->getParam('invoice_no');
-        $increase_date = $request->getParam('increase_date_year').'-'.$request
-        ->getParam('increase_date_month').'-'.$request->getParam('increase_date_day');
+        $increase_date = $request->getParam('increase_date');
         $funds = $request->getParam('funds');
         $provider_id = $request->getParam('provider_id');
         $data = array ('invoice_no' => $invoice_no, 'increase_date' => $increase_date, 'funds' => $funds,
@@ -51,21 +47,16 @@ class Admin_IncreaseController extends Admin_AuthController{
     $increase = $mincrease->show($this->_request->getParam('id'));
     $form->provider_id->setValue($increase['provider_id']);
     $form->invoice_no->setValue($increase['invoice_no']);
-    $value = explode("-", $increase['increase_date']);
-    $form->increase_date_day->setValue($value[2]);
-    $form->increase_date_month->setValue($value[1]);
-    $form->increase_date_year->setValue($value[0]);
+    $form->increase_date->setValue($increase['increase_date']);
     $form->funds->setValue($increase['funds']);
     $this->setSeclectProvider($form);
-    $this->setDate($form, 'increase_date');
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $invoice_no = $request->getParam('invoice_no');
-        $increase_date = $request->getParam('increase_date_year').'-'.$request
-        ->getParam('increase_date_month').'-'.$request->getParam('increase_date_day');
+        $increase_date = $request->getParam('increase_date');
         $funds = $request->getParam('funds');
         $provider_id = $request->getParam('provider_id');
         $data = array ('invoice_no' => $invoice_no, 'increase_date' => $increase_date, 'funds' => $funds,
@@ -117,11 +108,8 @@ class Admin_IncreaseController extends Admin_AuthController{
     $form = new Admin_Form_AddDevice();
     $id = $this->_request->getParam('id');
     $form->increase_id->setValue($id);
-    $form->production_date_day->setValue(date('d'));
-    $form->production_date_month->setValue(date('m'));
-    $form->production_date_year->setValue(date('Y'));
+    $form->production_date->setValue(date('Y-m-d'));
     $this->setSeclectDevice($form);
-    $this->setDate($form, 'production_date');
     $mdevice = new Admin_Model_DeviceIncrease;
     $this->view->form = $form;
     if($this->_request->getPost('create')){
@@ -129,8 +117,7 @@ class Admin_IncreaseController extends Admin_AuthController{
         $request = $this->getRequest();
         $device_id = $request->getParam('device_id');
         $cost = $request->getParam('cost');
-        $production_date = $request->getParam('production_date_year').'-'.$request
-        ->getParam('production_date_month').'-'.$request->getParam('production_date_day');
+        $production_date = $request->getParam('production_date');
         $quantity = $request->getParam('quantity');
         $guarantee = $request->getParam('guarantee');
         $install_fee = $request->getParam('install_fee');
@@ -164,25 +151,20 @@ class Admin_IncreaseController extends Admin_AuthController{
     $device = $mdevice->show($did);
     $form->device_id->setValue($device['device_id']);
     $id = $device['increase_id'];
-    $value = explode("-", $device['production_date']);
-    $form->production_date_day->setValue($value[2]);
-    $form->production_date_month->setValue($value[1]);
-    $form->production_date_year->setValue($value[0]);
+    $form->production_date->setValue($device['production_date']);
     $form->cost->setValue($device['cost']);
     $form->quantity->setValue($device['quantity']);
     $form->guarantee->setValue($device['guarantee']);
     $form->install_fee->setValue($device['install_fee']);
     $form->transport_fee->setValue($device['transport_fee']);
     $form->create->setLabel('Edit');
-    $this->setDate($form, 'production_date');
     $this->setSeclectDevice($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $device_id = $request->getParam('device_id');
-        $production_date = $request->getParam('production_date_year').'-'.$request
-        ->getParam('production_date_month').'-'.$request->getParam('production_date_day');
+        $production_date = $request->getParam('production_date');
         $cost = $request->getParam('cost');
         $quantity = $request->getParam('quantity');
         $guarantee = $request->getParam('guarantee');
@@ -242,31 +224,6 @@ class Admin_IncreaseController extends Admin_AuthController{
       $provider[$b['id']] = $b['name'];
     }
     $form->provider_id->addMultiOptions($provider);
-  }
-
-  private function setDate($form, $element){
-    $day = array();
-    for($i=1; $i<32; $i++) {
-      $day[$i] = $i;
-    }
-    $month = array();
-    for($i=1; $i<13; $i++) {
-      $month[$i] = date('F', strtotime($i.'/1/1990'));
-    }
-    $year = array();
-    for($i=date('Y')-20; $i<date('Y')+20; $i++) {
-      $year[$i] = $i;
-    }
-    if($element == 'production_date'){
-      $form->production_date_month->addMultiOptions($month);
-      $form->production_date_day->addMultiOptions($day);
-      $form->production_date_year->addMultiOptions($year);
-    }
-    else{
-      $form->increase_date_month->addMultiOptions($month);
-      $form->increase_date_day->addMultiOptions($day);
-      $form->increase_date_year->addMultiOptions($year);
-    }
   }
 
   public function setSeclectDevice($form){

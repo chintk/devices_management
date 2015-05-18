@@ -5,14 +5,8 @@ class Admin_Form_AddDevice extends Zend_Form{
 
     $this->addElement('select','device_id',array('label'=>'Device', 'class'=>'form-control'));
 
-    $this->addElement('select','production_date_day',array('label'=>'Production date',
-        'class'=>'form-control'));
-
-    $this->addElement('select','production_date_month',array('class'=>'form-control'));
-    $this->getElement('production_date_month')->removeDecorator('Label');
-
-    $this->addElement('select','production_date_year',array('class'=>'form-control'));
-    $this->getElement('production_date_year')->removeDecorator('Label');
+    $this->addElement('text','production_date',array('label'=>'Production date',
+        'class'=>'form-control col-md-4 datepicker'));
 
     $this->addElement('text','quantity',array('label'=>'Quantity', 'class'=>'form-control'));
 

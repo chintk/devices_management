@@ -6,14 +6,8 @@ class Admin_Form_CreateIncrease extends Zend_Form{
     $invoice->setRequired(true)->addValidator('NotEmpty',true)
       ->getValidator('NotEmpty')->setMessage('Ma hoa don không được bỏ trống.');
 
-    $this->addElement('select','increase_date_day',array('label'=>'Increase date',
-        'class'=>'form-control'));
-
-    $this->addElement('select','increase_date_month',array('class'=>'form-control'));
-    $this->getElement('increase_date_month')->removeDecorator('Label');
-
-    $this->addElement('select','increase_date_year',array('class'=>'form-control'));
-    $this->getElement('increase_date_year')->removeDecorator('Label');
+    $this->addElement('text','increase_date',array('label'=>'Increase date',
+        'class'=>'form-control col-md-4 datepicker'));
 
     $this->addElement('textarea','funds',array('label'=>'Funds', 'rows'=>'4', 'class'=>'form-control'));
 

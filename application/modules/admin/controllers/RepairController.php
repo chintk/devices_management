@@ -17,18 +17,14 @@ class Admin_RepairController extends Admin_AuthController{
     $this->view->headTitle(" | Create repair");
     $form = new Admin_Form_CreateDisposal();
     $mrepair = new Admin_Model_Repair;
-    $form->disposal_date_day->setValue(date('d'));
-    $form->disposal_date_month->setValue(date('m'));
-    $form->disposal_date_year->setValue(date('Y'));
-    $form->disposal_date_day->setLabel('Repair date');
+    $form->disposal_date->setValue(date('Y-m-d'));
+    $form->disposal_date->setLabel('Repair date');
     $this->setSeclectProvider($form);
-    $this->setDateRepair($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $repair_date = $request->getParam('disposal_date_year').'-'.$request
-        ->getParam('disposal_date_month').'-'.$request->getParam('disposal_date_day');
+        $repair_date = $request->getParam('disposal_date');
         $description = $request->getParam('description');
         $provider_id = $request->getParam('provider_id');
         $data = array ('repair_date' => $repair_date, 'description' => $description,
@@ -51,20 +47,15 @@ class Admin_RepairController extends Admin_AuthController{
     $repair = $mrepair->show($this->_request->getParam('id'));
     $form->provider_id->setValue($repair['provider_id']);
     $form->description->setValue($repair['description']);
-    $value = explode("-", $repair['repair_date']);
-    $form->disposal_date_day->setValue($value[2]);
-    $form->disposal_date_day->setLabel('Repair date');
-    $form->disposal_date_month->setValue($value[1]);
-    $form->disposal_date_year->setValue($value[0]);
+    $form->disposal_date->setValue($repair['repair_date']);
+    $form->disposal_date->setLabel('Repair date');
     $this->setSeclectProvider($form);
-    $this->setDateRepair($form);
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $repair_date = $request->getParam('disposal_date_year').'-'.$request
-        ->getParam('disposal_date_month').'-'.$request->getParam('disposal_date_day');
+        $repair_date = $request->getParam('disposal_date');
         $description = $request->getParam('description');
         $provider_id = $request->getParam('provider_id');
         $data = array ('repair_date' => $repair_date, 'description' => $description,
@@ -153,17 +144,13 @@ class Admin_RepairController extends Admin_AuthController{
     $form->device_no->setAttrib('disabled','disabled');
     $id = $device['repair_id'];
     $form->create->setLabel('Reuse');
-    $form->reuse_date_day->setValue(date('d'));
-    $form->reuse_date_month->setValue(date('m'));
-    $form->reuse_date_year->setValue(date('Y'));
-    $this->setDateReuse($form);
+    $form->reuse_date->setValue(date('Y-m-d'));
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
         $cost = $request->getParam('repair_cost');
-        $reuse_date = $request->getParam('reuse_date_year').'-'.$request
-        ->getParam('reuse_date_month').'-'.$request->getParam('reuse_date_day');
+        $reuse_date = $request->getParam('reuse_date');
         $data = array('repair_cost' => $cost, 'reuse_date'=>$reuse_date);
         if($mdevice->update($did, $data)){
           $mdetail = new Admin_Model_DeviceDetail;
@@ -208,42 +195,6 @@ class Admin_RepairController extends Admin_AuthController{
       $provider[$b['id']] = $b['name'];
     }
     $form->provider_id->addMultiOptions($provider);
-  }
-
-  private function setDateReuse($form){
-    $day = array();
-    for($i=1; $i<32; $i++) {
-      $day[$i] = $i;
-    }
-    $month = array();
-    for($i=1; $i<13; $i++) {
-      $month[$i] = date('F', strtotime($i.'/1/1990'));
-    }
-    $year = array();
-    for($i=date('Y')-20; $i<date('Y')+20; $i++) {
-      $year[$i] = $i;
-    }
-    $form->reuse_date_month->addMultiOptions($month);
-    $form->reuse_date_day->addMultiOptions($day);
-    $form->reuse_date_year->addMultiOptions($year);
-  }
-
-  private function setDateRepair($form){
-    $day = array();
-    for($i=1; $i<32; $i++) {
-      $day[$i] = $i;
-    }
-    $month = array();
-    for($i=1; $i<13; $i++) {
-      $month[$i] = date('F', strtotime($i.'/1/1990'));
-    }
-    $year = array();
-    for($i=date('Y')-20; $i<date('Y')+20; $i++) {
-      $year[$i] = $i;
-    }
-    $form->disposal_date_month->addMultiOptions($month);
-    $form->disposal_date_day->addMultiOptions($day);
-    $form->disposal_date_year->addMultiOptions($year);
   }
 
   public function getProvider($id){

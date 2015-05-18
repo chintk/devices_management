@@ -17,18 +17,14 @@ class Admin_TransferController extends Admin_AuthController{
     $this->view->headTitle(" | Create transfer");
     $form = new Admin_Form_CreateTransfer();
     $mtransfer = new Admin_Model_Transfer;
-    $form->transfer_date_day->setValue(date('d'));
-    $form->transfer_date_month->setValue(date('m'));
-    $form->transfer_date_year->setValue(date('Y'));
+    $form->transfer_date->setValue(date('Y-m-d'));
     $kind = $this->_request->getParam('kind');
     $this->setSeclectTransfer($form, $kind);
-    $this->setDate($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $transfer_date = $request->getParam('transfer_date_year').'-'.$request
-        ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
+        $transfer_date = $request->getParam('transfer_date');
         $decision = $request->getParam('decision');
         if($kind=="department"){
           $department_from = $request->getParam('department_from');
@@ -61,18 +57,14 @@ class Admin_TransferController extends Admin_AuthController{
     $this->view->headTitle(" | Create distribution");
     $form = new Admin_Form_CreateDistribution();
     $mtransfer = new Admin_Model_Transfer;
-    $form->transfer_date_day->setValue(date('d'));
-    $form->transfer_date_month->setValue(date('m'));
-    $form->transfer_date_year->setValue(date('Y'));
+    $form->transfer_date->setValue(date('Y-m-d'));
     $kind = $this->_request->getParam('kind');
     $this->setSeclectDistribution($form, $kind);
-    $this->setDate($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $transfer_date = $request->getParam('transfer_date_year').'-'.$request
-        ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
+        $transfer_date = $request->getParam('transfer_date');
         $decision = $request->getParam('decision');
         if($kind=="department"){
           $department_to = $request->getParam('department_to');
@@ -117,19 +109,14 @@ class Admin_TransferController extends Admin_AuthController{
       $form->department_from->setValue($transfer['room_from']);
     }
     $form->decision->setValue($transfer['decision']);
-    $value = explode("-", $transfer['transfer_date']);
-    $form->transfer_date_day->setValue($value[2]);
-    $form->transfer_date_month->setValue($value[1]);
-    $form->transfer_date_year->setValue($value[0]);
+    $form->transfer_date->setValue($transfer['transfer_date']);
     $this->setSeclectTransfer($form, $kind);
-    $this->setDate($form);
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $transfer_date = $request->getParam('transfer_date_year').'-'.$request
-        ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
+        $transfer_date = $request->getParam('transfer_date');
         $decision = $request->getParam('decision');
         if($kind=="department"){
           $department_from = $request->getParam('department_from');
@@ -174,19 +161,14 @@ class Admin_TransferController extends Admin_AuthController{
       $form->department_to->setValue($transfer['room_to']);
     }
     $form->decision->setValue($transfer['decision']);
-    $value = explode("-", $transfer['transfer_date']);
-    $form->transfer_date_day->setValue($value[2]);
-    $form->transfer_date_month->setValue($value[1]);
-    $form->transfer_date_year->setValue($value[0]);
+    $form->transfer_date_day->setValue($transfer['transfer_date']);
     $this->setSeclectDistribution($form, $kind);
-    $this->setDate($form);
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $transfer_date = $request->getParam('transfer_date_year').'-'.$request
-        ->getParam('transfer_date_month').'-'.$request->getParam('transfer_date_day');
+        $transfer_date = $request->getParam('transfer_date');
         $decision = $request->getParam('decision');
         if($kind=="department"){
           $department_to = $request->getParam('department_to');
@@ -435,24 +417,6 @@ class Admin_TransferController extends Admin_AuthController{
       $form->department_to->setLabel('To Room');
       $form->department_to->addMultiOptions($room);
     }
-  }
-
-  private function setDate($form){
-    $day = array();
-    for($i=1; $i<32; $i++) {
-      $day[$i] = $i;
-    }
-    $month = array();
-    for($i=1; $i<13; $i++) {
-      $month[$i] = date('F', strtotime($i.'/1/1990'));
-    }
-    $year = array();
-    for($i=date('Y')-20; $i<date('Y')+20; $i++) {
-      $year[$i] = $i;
-    }
-    $form->transfer_date_month->addMultiOptions($month);
-    $form->transfer_date_day->addMultiOptions($day);
-    $form->transfer_date_year->addMultiOptions($year);
   }
 
   public function getDepartment($id){

@@ -17,17 +17,13 @@ class Admin_DisposalController extends Admin_AuthController{
     $this->view->headTitle(" | Create disposal");
     $form = new Admin_Form_CreateDisposal();
     $mdisposal = new Admin_Model_Disposal;
-    $form->disposal_date_day->setValue(date('d'));
-    $form->disposal_date_month->setValue(date('m'));
-    $form->disposal_date_year->setValue(date('Y'));
+    $form->disposal_date->setValue(date('Y-m-d'));
     $this->setSeclectProvider($form);
-    $this->setDate($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $disposal_date = $request->getParam('disposal_date_year').'-'.$request
-        ->getParam('disposal_date_month').'-'.$request->getParam('disposal_date_day');
+        $disposal_date = $request->getParam('disposal_date');
         $description = $request->getParam('description');
         $provider_id = $request->getParam('provider_id');
         $data = array ('disposal_date' => $disposal_date, 'description' => $description,
@@ -50,19 +46,14 @@ class Admin_DisposalController extends Admin_AuthController{
     $disposal = $mdisposal->show($this->_request->getParam('id'));
     $form->provider_id->setValue($disposal['provider_id']);
     $form->description->setValue($disposal['description']);
-    $value = explode("-", $disposal['disposal_date']);
-    $form->disposal_date_day->setValue($value[2]);
-    $form->disposal_date_month->setValue($value[1]);
-    $form->disposal_date_year->setValue($value[0]);
+    $form->disposal_date->setValue($disposal['disposal_date']);
     $this->setSeclectProvider($form);
-    $this->setDate($form);
     $form->create->setLabel('Edit');
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
-        $disposal_date = $request->getParam('disposal_date_year').'-'.$request
-        ->getParam('disposal_date_month').'-'.$request->getParam('disposal_date_day');
+        $disposal_date = $request->getParam('disposal_date');
         $description = $request->getParam('description');
         $provider_id = $request->getParam('provider_id');
         $data = array ('disposal_date' => $disposal_date, 'description' => $description,
@@ -199,24 +190,6 @@ class Admin_DisposalController extends Admin_AuthController{
       $provider[$b['id']] = $b['name'];
     }
     $form->provider_id->addMultiOptions($provider);
-  }
-
-  private function setDate($form){
-    $day = array();
-    for($i=1; $i<32; $i++) {
-      $day[$i] = $i;
-    }
-    $month = array();
-    for($i=1; $i<13; $i++) {
-      $month[$i] = date('F', strtotime($i.'/1/1990'));
-    }
-    $year = array();
-    for($i=date('Y')-20; $i<date('Y')+20; $i++) {
-      $year[$i] = $i;
-    }
-    $form->disposal_date_month->addMultiOptions($month);
-    $form->disposal_date_day->addMultiOptions($day);
-    $form->disposal_date_year->addMultiOptions($year);
   }
 
   public function getProvider($id){
