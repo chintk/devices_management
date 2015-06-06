@@ -2,7 +2,7 @@
 require_once 'AuthController.php';
 class Admin_IncreaseController extends Admin_AuthController{
   public function indexAction(){
-    $this->view->headTitle(" | Increases");
+    $this->view->headTitle(" | Nhập mới thiết bị");
     $mincrease=new Admin_Model_Increase;
     $paginator = Zend_Paginator::factory($mincrease->index());
     $paginator->setItemCountPerPage(10);
@@ -14,26 +14,36 @@ class Admin_IncreaseController extends Admin_AuthController{
   }
 
   public function newAction(){
-    $this->view->headTitle(" | Create increase");
+    $this->view->headTitle(" | Tạo hóa đơn nhập");
     $form = new Admin_Form_CreateIncrease();
     $mincrease = new Admin_Model_Increase;
     $form->increase_date->setValue(date('Y-m-d'));
+    $this->setSeclectInstitute($form);
     $this->setSeclectProvider($form);
+    $this->setSeclectDepartment($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
       if($form->isValid($this->_request->getPost())){
         $request = $this->getRequest();
+        if($request->getParam('department_id')!=0){
+          $mdepartment = new Admin_Model_Department;
+          $unit = $mdepartment->show($request->getParam('department_id'))['sign'];
+        }
+        else if($request->getParam('institute_id')!=0){
+          $mInstitute = new Admin_Model_Institute;
+          $unit = $mInstitute->show($request->getParam('institute_id'))['sign'];
+        }else $unit = '000000';
         $invoice_no = $request->getParam('invoice_no');
         $increase_date = $request->getParam('increase_date');
         $funds = $request->getParam('funds');
         $provider_id = $request->getParam('provider_id');
         $data = array ('invoice_no' => $invoice_no, 'increase_date' => $increase_date, 'funds' => $funds,
-          'provider_id'=>$provider_id);
+          'provider_id'=>$provider_id, 'unit' => $unit);
         if($mincrease->create($data)){
           $this->_redirect('/admin/increase/index');
         }
         else{
-          echo "error";
+          echo "Đã có lỗi xảy ra, vui lòng kiểm tra lại thông tin";
           $this->getHelper('ViewRenderer')->setNoRender();
         }
       }
@@ -41,34 +51,62 @@ class Admin_IncreaseController extends Admin_AuthController{
   }
 
   public function editAction(){
-    $this->view->headTitle(" | Edit increase");
-    $form = new Admin_Form_CreateIncrease();
-    $mincrease = new Admin_Model_Increase;
-    $increase = $mincrease->show($this->_request->getParam('id'));
-    $form->provider_id->setValue($increase['provider_id']);
-    $form->invoice_no->setValue($increase['invoice_no']);
-    $form->increase_date->setValue($increase['increase_date']);
-    $form->funds->setValue($increase['funds']);
-    $this->setSeclectProvider($form);
-    $form->create->setLabel('Edit');
-    $this->view->form = $form;
-    if($this->_request->getPost('create')){
-      if($form->isValid($this->_request->getPost())){
-        $request = $this->getRequest();
-        $invoice_no = $request->getParam('invoice_no');
-        $increase_date = $request->getParam('increase_date');
-        $funds = $request->getParam('funds');
-        $provider_id = $request->getParam('provider_id');
-        $data = array ('invoice_no' => $invoice_no, 'increase_date' => $increase_date, 'funds' => $funds,
-          'provider_id'=>$provider_id);
-        if($mincrease->update($increase['id'], $data)){
-          $this->_redirect('/admin/increase/index');
-        }
-        else{
-          echo "error";
-          $this->getHelper('ViewRenderer')->setNoRender();
+    $this->view->headTitle(" | Thay đổi hóa đơn nhập");
+    $mdetail = new Admin_Model_DeviceDetail;
+    $details = $mdetail->getDeviceByIncrease(null, $this->_request->getParam('id'));
+    if(count($details) == 0){
+      $form = new Admin_Form_CreateIncrease();
+      $mincrease = new Admin_Model_Increase;
+      $increase = $mincrease->show($this->_request->getParam('id'));
+      $form->provider_id->setValue($increase['provider_id']);
+      $form->invoice_no->setValue($increase['invoice_no']);
+      $form->increase_date->setValue($increase['increase_date']);
+      $form->funds->setValue($increase['funds']);
+      $old_unit = $increase['unit'];
+      if($old_unit!='000000'){
+        $mInstitute = new Admin_Model_Institute;
+        $form->institute_id->setValue($mInstitute->getBySign(substr($old_unit,0,4).'00')['id']);
+        if(substr($old_unit,4) != '00'){
+          $mDepartment = new Admin_Model_Department;
+          $form->department_id->setValue($mDepartment->getBySign($old_unit)['id']);
         }
       }
+      $this->setSeclectInstitute($form);
+      $this->setSeclectProvider($form);
+      $this->setSeclectDepartment($form);
+      $form->create->setLabel('Cập nhật');
+      $this->view->form = $form;
+      if($this->_request->getPost('create')){
+        if($form->isValid($this->_request->getPost())){
+          $request = $this->getRequest();
+          if($request->getParam('department_id')!=0){
+            $mdepartment = new Admin_Model_Department;
+            $unit = $mdepartment->show($request->getParam('department_id'))['sign'];
+          }
+          else if($request->getParam('institute_id')!=0){
+            $mInstitute = new Admin_Model_Institute;
+            $unit = $mInstitute->show($request->getParam('institute_id'))['sign'];
+          }else{
+            $unit = '000000';
+          }
+          $invoice_no = $request->getParam('invoice_no');
+          $increase_date = $request->getParam('increase_date');
+          $funds = $request->getParam('funds');
+          $provider_id = $request->getParam('provider_id');
+          $data = array ('invoice_no' => $invoice_no, 'increase_date' => $increase_date, 'funds' => $funds,
+            'provider_id'=>$provider_id, 'unit' => $unit);
+          if($mincrease->update($increase['id'], $data)){
+            $this->_redirect('/admin/increase/index');
+          }
+          else{
+            echo "Đã có lỗi xảy ra, vui lòng kiểm tra lại thông tin";
+            $this->getHelper('ViewRenderer')->setNoRender();
+          }
+        }
+      }
+    }else{
+      echo "Hóa đơn không thể thay đổi";
+      $this->getHelper('ViewRenderer')->setNoRender();
     }
   }
 
@@ -117,6 +155,7 @@ class Admin_IncreaseController extends Admin_AuthController{
         $request = $this->getRequest();
         $device_id = $request->getParam('device_id');
         $cost = $request->getParam('cost');
+        $amortized = $request->getParam('amortized');
         $production_date = $request->getParam('production_date');
         $quantity = $request->getParam('quantity');
         $guarantee = $request->getParam('guarantee');
@@ -127,10 +166,20 @@ class Admin_IncreaseController extends Admin_AuthController{
           'quantity' => $quantity, 'increase_id'=>$id, 'production_date'=>$production_date);
         if($mdevice->create($data)){
           $mdetail = new Admin_Model_DeviceDetail;
-          $mdv = new Admin_Model_Device;
+          $mincrease = new Admin_Model_Increase;
+          $unit = $mincrease->show($id)['unit'];
+          $no = (int)substr($mdetail->getLast($unit)['device_no'], 6);
+          if($unit=='000000'){
+            $status = 1;
+            $use_date = null;
+          }
+          else{
+            $status = 2;
+            $use_date = $production_date;
+          }
           for($i=1; $i< $quantity+1; $i++){
-            $detail = array('device_id' => $device_id, 'status_id' => 1, 'device_no' => $mdv->show($device_id)['sign'].'.'.$id.'.'.$i,
-              'production_date' => $production_date, 'increase_id' => $id);
+            $detail = array('device_id' => $device_id, 'status_id' => $status, 'device_no' => $unit.sprintf("%'.04d",$no+$i),
+              'production_date' => $production_date, 'increase_id' => $id, 'use_date' => $use_date);
             $mdetail->create($detail);
           }
           $this->_redirect('/admin/increase/devices/id/'.$id);
@@ -153,11 +202,12 @@ class Admin_IncreaseController extends Admin_AuthController{
     $id = $device['increase_id'];
     $form->production_date->setValue($device['production_date']);
     $form->cost->setValue($device['cost']);
+    $form->amortized->setValue($device['amortized']);
     $form->quantity->setValue($device['quantity']);
     $form->guarantee->setValue($device['guarantee']);
     $form->install_fee->setValue($device['install_fee']);
     $form->transport_fee->setValue($device['transport_fee']);
-    $form->create->setLabel('Edit');
+    $form->create->setLabel('Cập nhật');
     $this->setSeclectDevice($form);
     $this->view->form = $form;
     if($this->_request->getPost('create')){
@@ -166,12 +216,13 @@ class Admin_IncreaseController extends Admin_AuthController{
         $device_id = $request->getParam('device_id');
         $production_date = $request->getParam('production_date');
         $cost = $request->getParam('cost');
+        $amortized = $request->getParam('amortized');
         $quantity = $request->getParam('quantity');
         $guarantee = $request->getParam('guarantee');
         $install_fee = $request->getParam('install_fee');
         $transport_fee = $request->getParam('transport_fee');
         $data = array ('device_id' => $device_id, 'transport_fee' => $transport_fee,
-          'install_fee' => $install_fee, 'guarantee' => $guarantee, 'cost' => $cost,
+          'install_fee' => $install_fee, 'guarantee' => $guarantee, 'cost' => $cost, 'amortized' => $amortized,
           'quantity' => $quantity, 'increase_id'=>$id, 'production_date' => $production_date);
         if($mdevice->update($did, $data)){
           if($device_id != $device['device_id'] || $production_date != $device['production_date'] || $quantity != $device['quantity']){
@@ -226,6 +277,24 @@ class Admin_IncreaseController extends Admin_AuthController{
     $form->provider_id->addMultiOptions($provider);
   }
 
+  private function setSeclectDepartment($form){
+    $mDepartment = new Admin_Model_Department;
+    $departments = array(0=>null);
+    foreach ($mDepartment->index() as $b) {
+      $departments[$b['id']] = $b['name'];
+    }
+    $form->department_id->addMultiOptions($departments);
+  }
+
+  private function setSeclectInstitute($form){
+    $mInstitute = new Admin_Model_Institute;
+    $institutes = array(0=>null);
+    foreach ($mInstitute->index() as $b) {
+      $institutes[$b['id']] = $b['name'];
+    }
+    $form->institute_id->addMultiOptions($institutes);
+  }
+
   public function setSeclectDevice($form){
     $mdevice = new Admin_Model_Device;
     $device = array();
@@ -248,5 +317,16 @@ class Admin_IncreaseController extends Admin_AuthController{
   public function getDevice($id){
     $mdevice=new Admin_Model_Device;
     return $mdevice->show($id);
+  }
+
+  public function getUnit($unit){
+    if(substr($unit, 4)== '00'){
+      $mInstitute = new Admin_Model_Institute;
+      return $mInstitute->getBySign($unit);
+    }
+    else{
+      $mDepartment = new Admin_Model_Department;
+      return $mDepartment->getBySign($unit);
+    }
   }
 }

@@ -1,6 +1,6 @@
 <h1>Search devices by information</h1>
 <div class="row well">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <?php echo $this->form ?>
   </div>
 </div>
@@ -11,19 +11,37 @@
     <?php else: ?>
       <table class="table table-bordered">
         <tr class="info">
-          <th>No.</th>
-          <th>Sign</th>
-          <th>Description</th>
-          <th>Factory name</th>
+          <th>Mã thiết bị</th>
+          <th>Tên thiết bị</th>
+          <th>Nhà cung cấp</th>
+          <th>Nước sản xuất</th>
+          <th>Giá trị</th>
+          <th>Khấu hao</th>
+          <th>Mã hóa đơn nhập</th>
+          <th>Ngày nhập</th>
+          <th>Nguồn vốn</th>
+          <th>Tình trạng</th>
+          <th>Đơn vị quản lý</th>
+          <th>Vị trí</th>
         </tr>
-        <?php foreach ($this->data as $device): ?>
+        <?php foreach ($this->data as $device_detail){
+          $device = $this->controller->getDevice($device_detail['device_id']);
+          $info = $this->controller->getInfo($device_detail['id']) ?>
           <tr>
-            <td><?= $this->deviceDetails[$device['id']]['device_no'] ?></td>
-            <td><?= $device['sign'] ?></td>
-            <td><?= $device['description'] ?></td>
-            <td><?= $this->factories[$device['factory_id']]['name'] ?></td>
+            <td><?= $device_detail['device_no'] ?></td>
+            <td><?= $device['device.name'] ?></td>
+            <td><?= $info['name'] ?></td>
+            <td><?= $device['country.name'] ?></td>
+            <td><?= $info['cost'] ?></td>
+            <td><?= $info['amortized'] ?></td>
+            <td><?= $info['invoice_no'] ?></td>
+            <td><?= $info['increase_date'] ?></td>
+            <td><?= $info['funds'] ?></td>
+            <td><?= $info['device_status.name'] ?></td>
+            <td><?= $this->controller->getUnit($device_detail['device_no'])['name'] ?></td>
+            <td><?= $info['room.name'] ?></td>
           </tr>
-        <?php endforeach ?>
+        <?php } ?>
       </table>
     <?php endif ?>
   </div>

@@ -169,7 +169,7 @@ class Admin_DeviceController extends Admin_AuthController{
   }
 
   private function setSeclect($form){
-    $mcategory = new Admin_Model_Category;
+    $mcategory = new Admin_Model_Type;
     $category = array();
     foreach ($mcategory->index() as $b) {
       $category[$b['id']] = $b['name'];
@@ -211,7 +211,7 @@ class Admin_DeviceController extends Admin_AuthController{
   }
 
   public function getCategory($id){
-    $mcategory=new Admin_Model_Category;
+    $mcategory=new Admin_Model_Type;
     return $mcategory->show($id);
   }
 

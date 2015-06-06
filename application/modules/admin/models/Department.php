@@ -6,12 +6,12 @@ class Admin_Model_Department{
     $this->db=Zend_Registry::get('db');
   }
 
-  public function listall(){
+  public function index(){
     $query = $this->db->select()->from('department');
     return $this->db->fetchAll($query);
   }
 
-  public function index($id){
+  public function getList($id){
     $query = $this->db->select()->from('department')->where('institute_id=?',$id);
     return $this->db->fetchAll($query);
   }
@@ -34,5 +34,10 @@ class Admin_Model_Department{
   public function update($id, $data){
     $sql = $this->db->update('department', $data, 'id='.$id);
     return $sql;
+  }
+
+  public function getBySign($sign){
+    $query = $this->db->select()->from('department')->where('sign=?',$sign);
+    return $this->db->fetchRow($query);
   }
 }

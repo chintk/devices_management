@@ -6,116 +6,114 @@
             <ul class="nav navbar-nav navbar-right">
                 <?php if (empty($this->user)): ?>
                     <li><a href="<?=$this->url(array('controller'=>'index',
-                    'action'=>'login'), null, true)?>">Log in</a></li>
+                    'action'=>'login'), null, true)?>">Đăng nhập</a></li>
                 <?php else: ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Report <b class="caret"></b>
+                            Báo cáo<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'report',
-                                'action'=>'institute-device'), null, true)?>">Institute Device</a></li>
+                                'action'=>'institute-device'), null, true)?>">Kiểm kê tài sản viện</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Search <b class="caret"></b>
+                            Tìm kiếm<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'search',
-                                'action'=>'information'), null, true)?>">Infomation</a></li>
-                            <li><a href="">Address</a></li>
+                                'action'=>'information'), null, true)?>">Thông tin thiết bị</a></li>
+                            <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'search',
+                                'action'=>'address'), null, true)?>">Địa điểm</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Devices Infomation <b class="caret"></b>
+                            Thông tin thiết bị<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <?php if($this->user->level == 1): ?>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'device',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Devices</a></li>
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Danh mục thiết bị</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'attribute',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Attributes</a></li>
-                                <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'category',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Categories</a></li>
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Thuộc tính</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'factory',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Factories</a></li>
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Nhà sản xuất</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'provider',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Providers</a></li>
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Nhà phân phối</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'type',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Types</a></li>
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Loại thiết bị</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'status',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Status</a></li>
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Trạng thái</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'country',
-                                'module'=>'admin', 'action'=>'index'), null, true)?>">Countries</a></li>
+                                'module'=>'admin', 'action'=>'index'), null, true)?>">Nước sản xuất</a></li>
                             <?php else: ?>
                             <?php endif; ?>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Devices Activity <b class="caret"></b>
+                            Xử lý thiết bị<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <?php if($this->user->level == 1): ?>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'increase',
-                                'action'=>'index'), null, true)?>">Increase</a></li>
+                                'action'=>'index'), null, true)?>">Nhập mới</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'repair',
-                                'action'=>'index'), null, true)?>">Repair</a></li>
+                                'action'=>'index'), null, true)?>">Sửa chữa</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'disposal',
-                                'action'=>'index'), null, true)?>">Disposal</a></li>
+                                'action'=>'index'), null, true)?>">Thanh lý</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'borrow',
-                                'action'=>'index'), null, true)?>">Borrow</a></li>
+                                'action'=>'index'), null, true)?>">Sử dụng</a></li>
                                 <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'transfer',
-                                'action'=>'index'), null, true)?>">Transfer</a></li>
+                                'action'=>'index'), null, true)?>">Thuyên chuyển</a></li>
                             <?php else: ?>
                             <?php endif; ?>
                         </ul>
                     </li>
                     <?php if($this->user->level == 1): ?>
                         <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'user',
-                        'action'=>'index'), null, true)?>">Users</a></li>
+                        'action'=>'index'), null, true)?>">Người dùng</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Locations<b class="caret"></b>
+                                Đơn vị<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                     <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'room',
-                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Rooms</a></li>
+                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Phòng</a></li>
                                     <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'building',
-                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Buildings</a></li>
+                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Toà nhà</a></li>
                                     <li><a href="<?=$this->url(array('module'=>'admin', 'controller'=>'institute',
-                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Institutes</a></li>
+                                    'module'=>'admin', 'action'=>'index'), null, true)?>">Khoa viện</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                System <b class="caret"></b>
+                                Hệ thống<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                    <li><a href="">Acl</a></li>
-                                    <li><a href="">Backup</a></li>
-                                    <li><a href="">Activity</a></li>
+                                    <li><a href="">Phân quyền</a></li>
+                                    <li><a href="">Sao lưu</a></li>
                                     <li class="divider"></li>
                                     <li><a href="<?=$this->url(array('controller'=>'index',
-                                    'action'=>'logout'), null, true)?>">Logout</a></li>
+                                    'action'=>'logout'), null, true)?>">Đăng xuất</a></li>
                             </ul>
                         </li>
                     <?php else: ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Account <b class="caret"></b>
+                                Tài khoản<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                     <li><a href="<?=$this->url(array('controller'=>'user',
-                                    'action'=>'show'), null, true)?>">Profile</a></li>
+                                    'action'=>'show'), null, true)?>">Hồ sơ</a></li>
                                     <li><a href="<?=$this->url(array('controller'=>'user',
-                                    'action'=>'edit'), null, true)?>">Settings</a></li>
+                                    'action'=>'edit'), null, true)?>">Cài đặt</a></li>
                                 <li class="divider"></li>
                                 <li>
                                     <a href="<?=$this->url(array('controller'=>'index',
-                                    'action'=>'logout'), null, true)?>">Log out</a>
+                                    'action'=>'logout'), null, true)?>">Đăng xuất</a>
                                 </li>
                             </ul>
                         </li>

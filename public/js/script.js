@@ -31,4 +31,18 @@ $(function() {
       }
     });
   });
+
+  $('#type').change(function(){
+    var type = $(this).find('option:selected').val();
+    $.ajax({
+      type: "GET",
+      url: "/device_management/admin/device/setselecttype",
+      data: {"id": type},
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        $("#name").html(result);
+      }
+    });
+  });
 });

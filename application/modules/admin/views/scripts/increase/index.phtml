@@ -1,14 +1,15 @@
-<h1>Manager increases</h1>
-<a href="<?=$this->url(array('controller'=>'increase','action'=>'new'))?>">Add new</a>
+<h1>Quản lý hóa đơn nhập</h1>
+<a href="<?=$this->url(array('controller'=>'increase','action'=>'new'))?>">Tạo hóa đơn nhập</a>
 <table class="table">
   <thead>
     <tr>
       <th>#</th>
-      <th>Invoice</th>
-      <th>Date</th>
-      <th>Provider</th>
-      <th>Funds</th>
-      <th>Details</th>
+      <th>Đơn vị</th>
+      <th>Số hóa đơn</th>
+      <th>Ngày nhập</th>
+      <th>Nhà cung cấp</th>
+      <th>Nguồn vốn</th>
+      <th>Chi tiết</th>
       <th></th>
     </tr>
   </thead>
@@ -16,6 +17,27 @@
     <?php foreach($this->data as $item){ ?>
       <tr>
         <th scope="row"><?= $item['id'] ?></th>
+        <td>
+          <?php if($item['unit'] == '000000'){
+            echo 'Kho';
+          }
+          else{
+            $unit = $this->controller->getUnit($item['unit']);
+            if(substr($item['unit'], 4)== '00'){              
+              ?>
+              <a href="<?=$this->url(array('controller'=>'institute','action'=>'show','id'=>$unit['id']))?>" target='_blank'>
+              <?php
+            }else{
+              ?>
+              <a href="<?=$this->url(array('controller'=>'department','action'=>'show','id'=>$unit['id']))?>" target='_blank'>                
+              <?php
+            }
+            ?>
+            <?= $unit['name'] ?>
+            </a>
+            <?php
+          } ?>
+        </td>
         <td>
           <a href="<?=$this->url(array('controller'=>'increase','action'=>'edit','id'=>$item['id']))?>">
             <?= $item['invoice_no'] ?>
@@ -26,9 +48,9 @@
           <a href="<?=$this->url(array('controller'=>'provider','action'=>'show','id'=>$item['provider_id']))?>" target='_blank'><?= $this->controller->getProvider($item['provider_id'])['name'] ?></a></td>
         <td><?= $item['funds'] ?></td>
         <td>
-          <a href="<?=$this->url(array('controller'=>'increase','action'=>'devices','id'=>$item['id']))?>">detail</a>
+          <a href="<?=$this->url(array('controller'=>'increase','action'=>'devices','id'=>$item['id']))?>">Chi tiết</a>
         </td>
-        <td><a href="<?=$this->url(array('controller'=>'increase','action'=>'delete','id'=>$item['id']))?>">Delete</a></td>
+        <td><a href="<?=$this->url(array('controller'=>'increase','action'=>'delete','id'=>$item['id']))?>">Xóa hóa đơn</a></td>
       </tr>
     <?php } ?>
   </tbody>

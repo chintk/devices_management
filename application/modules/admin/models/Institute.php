@@ -30,4 +30,9 @@ class Admin_Model_Institute{
     $sql = $this->db->update('institute', $data, 'id='.$id);
     return $sql;
   }
+
+  public function getBySign($sign){
+    $query = $this->db->select()->from('institute')->where('sign=?',$sign);
+    return $this->db->fetchRow($query);
+  }
 }

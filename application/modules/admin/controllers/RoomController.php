@@ -114,7 +114,7 @@ class Admin_RoomController extends Admin_AuthController{
     $form->institute_id->addMultiOptions($institute);
     $mdepartment = new Admin_Model_Department;
     $department = array(0=>null);
-    foreach ($mdepartment->listall() as $b) {
+    foreach ($mdepartment->index() as $b) {
       $department[$b['id']] = $b['name'];
     }
     $form->department_id->addMultiOptions($department);
@@ -124,7 +124,7 @@ class Admin_RoomController extends Admin_AuthController{
     $id = $this->_request->getParam('id');
     $mdepartment = new Admin_Model_Department;
     $department = "<option value='0' label=''></option>";   
-    foreach ($mdepartment->index($id) as $b) {
+    foreach ($mdepartment->getList($id) as $b) {
       $department .= "<option value='".$b['id']."'>".$b['name']."</option>";
     }
     echo json_encode($department);

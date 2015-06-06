@@ -14,6 +14,49 @@ class Admin_Model_DeviceDetail extends Admin_Model_AbstractModel
         return $sql->fetchAll();
     }
 
+    public function searchByAddress($room, $building, $department, $institute)
+    {
+      $query = 'SELECT * FROM device_detail ';
+      $wheres = array();
+
+      if ($room) {
+          $wheres[] = "room_id = {$room} ";
+      }
+
+      if ($building) {
+          $wheres[] = "EXISTS (
+              SELECT *
+              FROM room
+              WHERE device_detail.room_id = room.id
+              AND room.building_id = {$building}) ";
+      }
+
+      if ($department) {
+          $wheres[] = "EXISTS (
+              SELECT *
+              FROM department
+              WHERE substring(device_detail.device_no, 1, 6) = department.sign
+              AND department.id = {$department}) ";
+      }
+
+      if ($institute) {
+          $wheres[] = "EXISTS (
+              SELECT *
+              FROM institute
+              WHERE substring(device_detail.device_no, 1, 4) = substring(institute.sign, 1, 4)
+              AND institute.id = {$institute}) ";
+      }
+
+      if (!empty($wheres)) {
+          $query .= 'WHERE ' . implode(' AND ', $wheres);
+      }
+
+      $query .= 'ORDER BY id ASC';
+
+      $sql = $this->db->query($query);
+      return $sql->fetchAll();
+  }
+
     public function findListByDeviceIds($deviceIds)
     {
         if (empty($deviceIds)) {
@@ -23,8 +66,8 @@ class Admin_Model_DeviceDetail extends Admin_Model_AbstractModel
         $query = 'SELECT * FROM device_detail WHERE device_id IN (' . implode(',', $deviceIds) . ')';
         $sql = $this->db->query($query);
         $deviceDetails = $sql->fetchAll();
-
-        return $this->makeList($deviceDetails, 'device_id');
+        return $deviceDetails;
+        // return $this->makeList($deviceDetails, 'device_id');
     }
 
     public function findAllByDeviceId($deviceId)
@@ -89,5 +132,21 @@ class Admin_Model_DeviceDetail extends Admin_Model_AbstractModel
     {
         $query = $this->db->select()->from('device_detail')->where('device_no=?',$device_no);
         return $this->db->fetchRow($query);
+    }
+
+    public function getLast($unit){
+      $query = $this->db->select()->from('device_detail')->where('substring(device_no, 1, 6)=?', $unit)->order('id DESC')->limit(1);
+      return $this->db->fetchRow($query);
+    }
+
+    public function getInfo($id){
+      $query = $this->db->select()->from('device_detail')
+        ->joinLeft('increase','device_detail.increase_id = increase.id')
+        ->joinLeft('provider','provider.id = increase.provider_id')
+        ->joinLeft('device_status','device_status.id = device_detail.status_id', array('device_status.name'=>'device_status.name'))
+        ->joinLeft('room','room.id = device_detail.room_id', array('room.name'=>'room.name'))
+        ->joinLeft('device_increase', 'device_detail.increase_id = device_increase.increase_id AND device_increase.device_id = device_detail.device_id')
+        ->where('device_detail.id=?', $id);
+      return $this->db->fetchRow($query);
     }
 }
